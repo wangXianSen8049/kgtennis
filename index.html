@@ -2,176 +2,157 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>运城袋鼠网球学院</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运城袋鼠网球学院 - 约球，交友，穿搭，进阶</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 全局样式 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Microsoft YaHei', sans-serif;
         }
         
         :root {
-            --primary: #2e7d32;
-            --primary-light: #60ad5e;
-            --primary-dark: #005005;
-            --secondary: #f9a825;
-            --light: #f5f5f5;
-            --dark: #333;
-            --gray: #666;
-            --light-gray: #e0e0e0;
-            --header-height: 60px;
-            --section-padding: 3rem 1.5rem;
-            font-size: 14px;
-        }
-        
-        @media (min-width: 360px) {
-            :root { font-size: 15px; }
-        }
-        
-        @media (min-width: 400px) {
-            :root { font-size: 16px; }
+            --primary-color: #ff6b35;
+            --secondary-color: #2a9d8f;
+            --dark-color: #264653;
+            --light-color: #f8f9fa;
+            --text-color: #333;
         }
         
         body {
-            background-color: #f8f9fa;
-            color: var(--dark);
             line-height: 1.6;
-            overflow-x: hidden;
-            padding-top: var(--header-height);
+            color: var(--text-color);
+            background-color: var(--light-color);
         }
         
-        /* 头部样式 - 适配移动端 */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .container {
             width: 100%;
-            height: var(--header-height);
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 0 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
         }
         
-        .header-content {
+        .section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            color: var(--dark-color);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 15px 0;
         }
         
         .logo {
             display: flex;
             align-items: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--dark-color);
         }
         
-        .logo h1 {
-            font-size: 1.2rem;
-            margin-left: 8px;
-            font-weight: 700;
+        .logo i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+        .logo img {
+            width: 36px;
+            margin-right: 3px;
         }
         
-        .logo-icon {
-            font-size: 1.8rem;
-            color: var(--secondary);
-        }
-        
-        .menu-toggle {
+        .nav-links {
             display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            width: 30px;
-            height: 25px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
         }
         
-        .menu-toggle span {
-            display: block;
-            height: 3px;
-            width: 100%;
-            background-color: white;
-            border-radius: 2px;
-            transition: all 0.3s;
+        .nav-links li {
+            margin-left: 30px;
         }
         
-        nav {
-            position: fixed;
-            top: var(--header-height);
-            right: -100%;
-            width: 70%;
-            height: calc(100vh - var(--header-height));
-            background: var(--primary-dark);
-            z-index: 999;
-            transition: right 0.4s ease;
-            overflow-y: auto;
-        }
-        
-        nav.active {
-            right: 0;
-        }
-        
-        nav ul {
-            list-style: none;
-            padding: 1.5rem 0;
-        }
-        
-        nav ul li {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        nav ul li a {
-            display: block;
-            color: white;
-            text-decoration: none;
+        .nav-links a {
             font-weight: 500;
-            padding: 1rem 1.5rem;
-            transition: all 0.3s;
+            transition: color 0.3s;
         }
         
-        nav ul li a:hover {
-            background: rgba(255,255,255,0.1);
+        .nav-links a:hover {
+            color: var(--primary-color);
         }
         
-        .overlay {
-            position: fixed;
-            top: var(--header-height);
-            left: 0;
-            width: 100%;
-            height: calc(100vh - var(--header-height));
-            background: rgba(0,0,0,0.5);
-            z-index: 998;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        #logo{
+            width: 36px;
         }
         
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        /* Hero区域 - 移动端优化 */
+        /* 首页横幅 */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1547981609-4b6bf67c7d93?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
-            background-size: cover;
-            background-position: center;
-            min-height: 70vh;
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.postimg.cc/jqgk41jM/1040g3k831i79mb1l7a7049imcrm0rqvt5dv9pqo.jpg') no-repeat center center/cover;
+            color: white;
             display: flex;
             align-items: center;
             text-align: center;
-            color: white;
-            position: relative;
-            padding: 2rem 1.5rem;
         }
         
         .hero-content {
@@ -179,117 +160,43 @@
             margin: 0 auto;
         }
         
-        .hero h2 {
-            font-size: 2rem;
-            margin-bottom: 1.2rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
         }
         
         .hero p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
         }
         
-        .btn {
-            display: inline-block;
-            background: var(--secondary);
-            color: white;
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .slogan {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: var(--primary-color);
         }
         
-        .btn:hover, .btn:active {
-            background: #ffb300;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid white;
-            margin-top: 1rem;
-            margin-left: 0;
-        }
-        
-        .btn-outline:hover, .btn-outline:active {
-            background: white;
-            color: var(--primary);
-        }
-        
-        .hero-btns {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        
-        /* 通用部分样式 */
-        .section {
-            padding: var(--section-padding);
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .section-title h2 {
-            font-size: 1.8rem;
-            color: var(--primary);
-            position: relative;
-            display: inline-block;
-            margin-bottom: 1rem;
-        }
-        
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: var(--secondary);
-        }
-        
-        .section-title p {
-            color: var(--gray);
-            font-size: 1rem;
-            margin-top: 1rem;
-        }
-        
-        /* 关于我们 - 移动端优化 */
+        /* 关于我们 */
         .about-content {
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
         }
         
-        .about-text h3 {
-            font-size: 1.4rem;
-            color: var(--primary-dark);
-            margin-bottom: 1rem;
-        }
-        
-        .about-text p {
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
+        .about-text {
+            flex: 1;
+            min-width: 300px;
         }
         
         .about-image {
+            flex: 1;
+            min-width: 300px;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
         .about-image img {
@@ -298,503 +205,387 @@
             display: block;
         }
         
-        /* 课程服务 - 移动端优化 */
+        /* 课程服务 */
         .courses {
-            background: var(--light);
+            background-color: #f8f9fa;
         }
         
-        .course-grid {
+        .course-cards {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-        
-        @media (min-width: 576px) {
-            .course-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .course-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
         
         .course-card {
-            background: white;
+            background-color: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
         }
         
-        .course-card:active {
-            transform: scale(0.98);
+        .course-card:hover {
+            transform: translateY(-10px);
         }
         
-        .course-image {
-            height: 180px;
+        .course-img {
+            height: 200px;
             overflow: hidden;
         }
         
-        .course-image img {
+        .course-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.5s;
         }
         
-        .course-content {
-            padding: 1.2rem;
+        .course-card:hover .course-img img {
+            transform: scale(1.1);
         }
         
-        .course-content h3 {
-            font-size: 1.2rem;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
+        .course-info {
+            padding: 20px;
         }
         
-        .price {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
+        .course-info h3 {
+            margin-bottom: 10px;
+            color: var(--dark-color);
         }
         
-        .price-tag {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        /* 教练团队 - 移动端优化 */
-        .coaches-grid {
+        /* 教练团队 */
+        .coaches-container {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-        
-        @media (min-width: 576px) {
-            .coaches-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 992px) {
-            .coaches-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
         }
         
         .coach-card {
-            background: white;
+            background-color: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
+            transition: transform 0.3s;
         }
         
-        .coach-image {
-            height: 220px;
+        .coach-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .coach-img {
+            height: 250px;
             overflow: hidden;
         }
         
-        .coach-image img {
+        .coach-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
         .coach-info {
-            padding: 1.2rem;
+            padding: 20px;
         }
         
         .coach-info h3 {
-            font-size: 1.2rem;
-            color: var(--primary-dark);
-            margin-bottom: 0.3rem;
+            margin-bottom: 5px;
+            color: var(--dark-color);
         }
         
-        .coach-info .title {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            font-size: 0.95rem;
+        .coach-title {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        /* 场地预约 */
+        .booking {
+            background-color: #f8f9fa;
+        }
+        
+        .booking-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        /* 联系我们 */
+        .contact-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-info h3 {
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
         }
         
         .social-links {
             display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            margin-top: 0.8rem;
+            margin-top: 20px;
         }
         
         .social-links a {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--dark-color);
+            color: white;
             border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            transition: all 0.3s;
-            font-size: 0.9rem;
+            margin-right: 10px;
+            transition: background-color 0.3s;
         }
         
-        .social-links a:active {
-            background: var(--secondary);
-            transform: scale(0.95);
+        .social-links a:hover {
+            background-color: var(--primary-color);
         }
         
-        /* 预约区域 - 移动端优化 */
-        .booking {
-            background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
-            color: white;
-            text-align: center;
+        .map {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
         }
         
-        .booking h2 {
-            color: white;
-        }
-        
-        .booking h2::after {
-            background: var(--secondary);
-        }
-        
-        .booking-form {
-            background: rgba(255,255,255,0.1);
-            padding: 1.5rem;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-        }
-        
-        .form-group {
-            margin-bottom: 1.2rem;
-            text-align: left;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .map img {
             width: 100%;
-            padding: 0.8rem;
-            border-radius: 8px;
-            border: none;
-            background: rgba(255,255,255,0.9);
-            font-size: 1rem;
+        }
+        .more {
+            margin-top: 10px;
         }
         
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        
-        /* 页脚 - 移动端优化 */
+        /* 页脚 */
         footer {
-            background: var(--dark);
+            background-color: var(--dark-color);
             color: white;
-            padding: 3rem 1.5rem 2rem;
+            padding: 40px 0 20px;
         }
         
         .footer-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 30px;
         }
         
-        @media (min-width: 768px) {
-            .footer-content {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
         }
         
         .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.2rem;
-            color: var(--secondary);
-            position: relative;
-            padding-bottom: 0.5rem;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
         }
         
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--primary);
+        .footer-column ul li {
+            margin-bottom: 10px;
         }
         
-        .contact-info {
-            list-style: none;
-        }
-        
-        .contact-info li {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: flex-start;
-            font-size: 0.95rem;
-        }
-        
-        .contact-info li i {
-            margin-right: 10px;
-            color: var(--secondary);
-            margin-top: 5px;
-            min-width: 20px;
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-links a {
-            color: #ccc;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-            display: block;
-            padding: 0.2rem 0;
-        }
-        
-        .footer-links a:active {
-            color: var(--secondary);
+        .footer-column a:hover {
+            color: var(--primary-color);
         }
         
         .copyright {
             text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #aaa;
-            font-size: 0.85rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* 移动端特有元素 */
-        .mobile-bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 0.8rem 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            z-index: 100;
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: var(--gray);
-            font-size: 0.75rem;
-            flex: 1;
-        }
-        
-        .nav-item i {
-            font-size: 1.3rem;
-            margin-bottom: 0.3rem;
-        }
-        
-        .nav-item.active {
-            color: var(--primary);
-        }
-        
-        /* 网球动画 */
-        .tennis-ball {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle at 30% 30%, #ffeb3b, #fbc02d);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            z-index: -1;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .tennis-ball:nth-child(1) {
-            top: 15%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-        
-        .tennis-ball:nth-child(2) {
-            top: 45%;
-            left: 85%;
-            animation-delay: 1s;
-        }
-        
-        .tennis-ball:nth-child(3) {
-            top: 75%;
-            left: 25%;
-            animation-delay: 2s;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-20px) translateX(10px);
-            }
-            50% {
-                transform: translateY(10px) translateX(-20px);
-            }
-            75% {
-                transform: translateY(-15px) translateX(-15px);
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
             }
         }
         
-        /* 适配小屏幕手机的额外样式 */
-        @media (max-width: 360px) {
-            .hero h2 {
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: left 0.3s ease;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .section {
+                padding: 40px 0;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero h1 {
                 font-size: 1.8rem;
             }
             
             .hero p {
                 font-size: 1rem;
             }
-            
-            .section-title h2 {
-                font-size: 1.6rem;
-            }
-            
-            .course-content h3, .coach-info h3 {
-                font-size: 1.15rem;
-            }
-        }
-        
-        /* 防止移动端横屏时字体过大 */
-        @media (max-height: 420px) and (orientation: landscape) {
-            .hero {
-                min-height: 100vh;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- 头部导航 -->
+    <!-- 导航栏 -->
     <header>
-        <div class="header-content">
-            <div class="logo">
-                <i class="fas fa-tennis-ball logo-icon"></i>
-                <h1>运城袋鼠网球学院</h1>
-            </div>
-            <button class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <img src='https://i.postimg.cc/jjcbNWVW/dai-shu-wang-qiulogo.png' alt="logo">
+                    <span>运城袋鼠网球学院</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#courses">课程服务</a></li>
+                    <li><a href="#coaches">教练团队</a></li>
+                    <li><a href="#booking">场地预约</a></li>
+                    <li><a href="#contact">联系我们</a></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
         </div>
-        <nav id="mainNav">
-            <ul>
-                <li><a href="#home">首页</a></li>
-                <li><a href="#about">关于我们</a></li>
-                <li><a href="#courses">课程服务</a></li>
-                <li><a href="#coaches">教练团队</a></li>
-                <li><a href="#booking">场地预约</a></li>
-                <li><a href="#contact">联系我们</a></li>
-            </ul>
-        </nav>
-        <div class="overlay" id="overlay"></div>
     </header>
 
-    <!-- Hero区域 -->
+    <!-- 首页横幅 -->
     <section class="hero" id="home">
-        <div class="hero-content">
-            <h2>专业网球训练，成就冠军梦想</h2>
-            <p>运城袋鼠网球学院拥有国际标准场地和专业教练团队，为不同年龄段学员提供专业网球培训</p>
-            <div class="hero-btns">
+        <div class="container">
+            <div class="hero-content">
+                <h1>运城袋鼠网球学院</h1>
+                <p class="slogan">约球 / 交友 / 穿搭 / 进阶</p>
+                <p>成立一周年 | 2024.07.28至今</p>
+                <p>我们的目标：冲进3.0，释放工作压力，享受击球快感</p>
                 <a href="#booking" class="btn">立即预约</a>
-                <a href="#courses" class="btn btn-outline">查看课程</a>
             </div>
         </div>
-        
-        <!-- 网球动画 -->
-        <div class="tennis-ball"></div>
-        <div class="tennis-ball"></div>
-        <div class="tennis-ball"></div>
     </section>
 
     <!-- 关于我们 -->
     <section class="section" id="about">
-        <div class="section-title">
-            <h2>关于我们</h2>
-            <p>运城袋鼠网球学院成立于2015年，是晋南地区规模最大、设施最完善的网球训练基地</p>
-        </div>
-        <div class="about-content">
-            <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1593118247619-e2d6f056869e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="网球学院场地">
-            </div>
-            <div class="about-text">
-                <h3>专业网球训练基地</h3>
-                <p>学院占地5000平方米，拥有8片国际标准硬地网球场，其中包括4片室内球场和4片室外球场，全年无休满足学员训练需求。</p>
-                <p>我们引进了国际先进的网球训练体系，配备专业体能训练区和运动康复中心，为学员提供全方位的训练保障。</p>
-                <a href="#" class="btn" style="margin-top: 15px;">了解更多</a>
+        <div class="container">
+            <h2 class="section-title">关于我们</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>运城袋鼠网球学院成立于2024年7月28日，致力于为网球爱好者提供专业、系统的训练课程和愉悦的社交环境。</p>
+                    <p>我们不仅关注技术提升，更注重网球文化的传播和社交体验。在运城袋鼠网球学院，您不仅能提高球技，还能结交志同道合的朋友，体验网球的无限魅力。</p>
+                    <p>全方位提升：技术精进 | 赛事解析 | 球星研究 | 约球礼仪</p>
+                    <p>球场需要新面孔，需要不同风格的球员</p>
+                    <a href="#contact" class="btn more">了解更多</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="关于我们">
+                </div>
             </div>
         </div>
     </section>
 
     <!-- 课程服务 -->
     <section class="section courses" id="courses">
-        <div class="section-title">
-            <h2>课程服务</h2>
-            <p>针对不同年龄和水平的学员，我们提供多样化的专业网球培训课程</p>
-        </div>
-        <div class="course-grid">
-            <div class="course-card">
-                <div class="course-image">
-                    <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="青少年培训">
-                </div>
-                <div class="course-content">
-                    <h3>青少年基础培训</h3>
-                    <p>针对6-16岁青少年，从零基础开始系统教学，培养网球兴趣和基本技术。</p>
-                    <div class="price">
-                        <span class="price-tag">¥3200/季度</span>
-                        <a href="#" class="btn">报名</a>
+        <div class="container">
+            <h2 class="section-title">课程服务</h2>
+            <div class="course-cards">
+                <div class="course-card">
+                    <div class="course-img">
+                        <img src="https://i.postimg.cc/6qMs2gDN/1040g3k831kkg3lflk8805pmu7tmncfd5lb8ebsg.jpg" alt="基础课程">
+                    </div>
+                    <div class="course-info">
+                        <h3>基础入门课程</h3>
+                        <p>适合零基础或初学者，系统学习网球基本技术和规则，建立正确动作基础。</p>
                     </div>
                 </div>
-            </div>
-            
-            <div class="course-card">
-                <div class="course-image">
-                    <img src="https://images.unsplash.com/photo-1529900748604-07564a03e7a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="成人培训">
-                </div>
-                <div class="course-content">
-                    <h3>成人专项提升</h3>
-                    <p>为18岁以上成人设计，根据学员水平定制训练方案，重点提升技术和战术应用能力。</p>
-                    <div class="price">
-                        <span class="price-tag">¥2800/季度</span>
-                        <a href="#" class="btn">报名</a>
+                <div class="course-card">
+                    <div class="course-img">
+                        <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="进阶课程">
+                    </div>
+                    <div class="course-info">
+                        <h3>技术进阶课程</h3>
+                        <p>针对有一定基础的学员，提升击球质量，学习战术应用，突破技术瓶颈。</p>
                     </div>
                 </div>
-            </div>
-            
-            <div class="course-card">
-                <div class="course-image">
-                    <img src="https://images.unsplash.com/photo-1587280501635-a19de238a81e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="私教课程">
-                </div>
-                <div class="course-content">
-                    <h3>私教一对一课程</h3>
-                    <p>专业教练一对一指导，针对性解决技术问题，快速提升技术水平。</p>
-                    <div class="price">
-                        <span class="price-tag">¥500/课时</span>
-                        <a href="#" class="btn">报名</a>
+                <div class="course-card">
+                    <div class="course-img">
+                        <img src="https://images.unsplash.com/photo-1587280501635-a19de238a81e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="专项训练">
+                    </div>
+                    <div class="course-info">
+                        <h3>专项训练课程</h3>
+                        <p>针对特定技术环节进行强化训练，如发球、网前、底线等专项技术提升。</p>
                     </div>
                 </div>
             </div>
@@ -803,292 +594,212 @@
 
     <!-- 教练团队 -->
     <section class="section" id="coaches">
-        <div class="section-title">
-            <h2>教练团队</h2>
-            <p>我们拥有经验丰富的专业教练团队，均获得国际网球联合会(ITF)认证</p>
-        </div>
-        <div class="coaches-grid">
-            <div class="coach-card">
-                <div class="coach-image">
-                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="张教练">
-                </div>
-                <div class="coach-info">
-                    <h3>张明</h3>
-                    <div class="title">总教练</div>
-                    <p>前国家队队员，ITF高级教练，15年教学经验，擅长青少年选手培养。</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-weixin"></i></a>
-                        <a href="#"><i class="fab fa-weibo"></i></a>
+        <div class="container">
+            <h2 class="section-title">教练团队</h2>
+            <div class="coaches-container">
+                <div class="coach-card">
+                    <div class="coach-img">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="教练1">
+                    </div>
+                    <div class="coach-info">
+                        <h3>张教练</h3>
+                        <p class="coach-title">首席教练</p>
+                        <p>10年教学经验，ITF认证教练，擅长青少年网球培养和成人技术提升。</p>
                     </div>
                 </div>
-            </div>
-            
-            <div class="coach-card">
-                <div class="coach-image">
-                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="李教练">
-                </div>
-                <div class="coach-info">
-                    <h3>李薇</h3>
-                    <div class="title">高级教练</div>
-                    <p>体育大学网球专业硕士，PTR认证教练，擅长成人网球培训和体能训练。</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-weixin"></i></a>
-                        <a href="#"><i class="fab fa-weibo"></i></a>
+                <div class="coach-card">
+                    <div class="coach-img">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="教练2">
+                    </div>
+                    <div class="coach-info">
+                        <h3>李教练</h3>
+                        <p class="coach-title">高级教练</p>
+                        <p>前省队队员，8年教学经验，专注于技术细节和比赛战术指导。</p>
                     </div>
                 </div>
-            </div>
-            
-            <div class="coach-card">
-                <div class="coach-image">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="王教练">
-                </div>
-                <div class="coach-info">
-                    <h3>王强</h3>
-                    <div class="title">青少年教练</div>
-                    <p>前省队队员，儿童心理学硕士，擅长儿童和青少年网球启蒙教育。</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-weixin"></i></a>
-                        <a href="#"><i class="fab fa-weibo"></i></a>
+                <div class="coach-card">
+                    <div class="coach-img">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="教练3">
                     </div>
-                </div>
-            </div>
-            
-            <div class="coach-card">
-                <div class="coach-image">
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="陈教练">
-                </div>
-                <div class="coach-info">
-                    <h3>陈思思</h3>
-                    <div class="title">体能教练</div>
-                    <p>国家一级运动员，运动康复专家，负责学员体能训练和运动损伤预防。</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-weixin"></i></a>
-                        <a href="#"><i class="fab fa-weibo"></i></a>
+                    <div class="coach-info">
+                        <h3>王教练</h3>
+                        <p class="coach-title">体能教练</p>
+                        <p>运动科学专业，负责学员体能训练和运动损伤预防，提升运动表现。</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 预约区域 -->
+    <!-- 场地预约 -->
     <section class="section booking" id="booking">
-        <div class="section-title">
-            <h2>场地预约</h2>
-            <p>在线预约场地，方便快捷，享受专业场地带来的完美体验</p>
+        <div class="container">
+            <h2 class="section-title">场地预约</h2>
+            <div class="booking-form">
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">联系电话</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">预约日期</label>
+                        <input type="date" id="date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">预约时间</label>
+                        <select id="time" class="form-control" required>
+                            <option value="">选择时间段</option>
+                            <option value="08:00-10:00">08:00-10:00</option>
+                            <option value="10:00-12:00">10:00-12:00</option>
+                            <option value="14:00-16:00">14:00-16:00</option>
+                            <option value="16:00-18:00">16:00-18:00</option>
+                            <option value="18:00-20:00">18:00-20:00</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="court">场地类型</label>
+                        <select id="court" class="form-control" required>
+                            <option value="">选择场地类型</option>
+                            <option value="硬地">硬地</option>
+                            <option value="红土">红土</option>
+                            <option value="草地">草地</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">提交预约</button>
+                </form>
+            </div>
         </div>
-        <div class="booking-form">
-            <form>
-                <div class="form-group">
-                    <label for="name">姓名</label>
-                    <input type="text" id="name" placeholder="请输入您的姓名" required>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">联系我们</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>联系信息</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>地址：运城市盐湖区大禹街与园西路交叉口东320米</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <p>电话：0359-88888888</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>邮箱：info@kangarootennis.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <p>营业时间：周一至周日 8:00-22:00</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://v.douyin.com/ttjGcOnvUjU/ 3@1.com :4pm"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                        <a href="https://www.instagram.com/kangaroo_tennis?igsh=cHpvYzNkNzZrN2Jl&utm_source=qr"><i class="fab fa-instagram"></i></a>
+                        <a href="https://mp.weixin.qq.com/s/QARrnrTVdUUt4ih6r-9j1Q"><i class="fab fa-weixin"></i></a>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="phone">联系电话</label>
-                    <input type="tel" id="phone" placeholder="请输入您的手机号码" required>
+                <div class="map">
+                    <img src="https://i.postimg.cc/NFsq0BCx/1040g3k831ff057jp6i9g4amebov2jl2e3goa4n0.jpg" alt="地图">
                 </div>
-                <div class="form-group">
-                    <label for="date">预约日期</label>
-                    <input type="date" id="date" required>
-                </div>
-                <div class="form-group">
-                    <label for="time">预约时段</label>
-                    <select id="time" required>
-                        <option value="">请选择时段</option>
-                        <option value="morning">上午 (8:00-12:00)</option>
-                        <option value="afternoon">下午 (14:00-18:00)</option>
-                        <option value="evening">晚上 (19:00-22:00)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="court">场地类型</label>
-                    <select id="court" required>
-                        <option value="">请选择场地类型</option>
-                        <option value="indoor">室内场地</option>
-                        <option value="outdoor">室外场地</option>
-                        <option value="vip">VIP场地</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn" style="width: 100%;">提交预约</button>
-            </form>
+            </div>
         </div>
     </section>
 
     <!-- 页脚 -->
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>运城袋鼠网球学院</h3>
-                <p>我们致力于推广网球运动，培养网球人才，为网球爱好者提供专业的训练场地和教学服务。</p>
-                <ul class="contact-info">
-                    <li><i class="fas fa-map-marker-alt"></i> 山西省运城市盐湖区体育大道88号</li>
-                    <li><i class="fas fa-phone"></i> 0359-88889999</li>
-                    <li><i class="fas fa-envelope"></i> info@kangarootennis.com</li>
-                    <li><i class="fas fa-clock"></i> 开放时间: 8:00-22:00 (全年无休)</li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>快速链接</h3>
-                <ul class="footer-links">
-                    <li><a href="#home">首页</a></li>
-                    <li><a href="#about">关于我们</a></li>
-                    <li><a href="#courses">课程服务</a></li>
-                    <li><a href="#coaches">教练团队</a></li>
-                    <li><a href="#booking">场地预约</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-column">
-                <h3>关注我们</h3>
-                <p>关注我们的社交媒体，获取最新活动和优惠信息</p>
-                <div class="social-links" style="justify-content: flex-start;">
-                    <a href="#"><i class="fab fa-weixin"></i></a>
-                    <a href="#"><i class="fab fa-weibo"></i></a>
-                    <a href="#"><i class="fab fa-qq"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>运城袋鼠网球学院</h3>
+                    <ul>
+                        <li><a href="#home">约球/交友/穿搭/进阶</a></li>
+                        <li><a href="#home">释放工作压力</a></li>
+                        <li><a href="#home">享受击球快感</a></li>
+                        <li><a href="#home">冲进3.0</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#about">关于我们</a></li>
+                        <li><a href="#courses">课程服务</a></li>
+                        <li><a href="#coaches">教练团队</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>服务项目</h3>
+                    <ul>
+                        <li><a href="#courses">基础课程</a></li>
+                        <li><a href="#courses">进阶课程</a></li>
+                        <li><a href="#courses">专项训练</a></li>
+                        <li><a href="#booking">场地预约</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>关注我们</h3>
+                    <div class="social-links">
+                        <a href="https://v.douyin.com/ttjGcOnvUjU/ 3@1.com :4pm"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                        <a href="https://www.instagram.com/kangaroo_tennis?igsh=cHpvYzNkNzZrN2Jl&utm_source=qr"><i class="fab fa-instagram"></i></a>
+                        <a href="https://mp.weixin.qq.com/s/QARrnrTVdUUt4ih6r-9j1Q"><i class="fab fa-weixin"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="copyright">
-            <p>&copy; 2023 运城袋鼠网球学院 版权所有 | 晋ICP备12345678号</p>
+            <div class="copyright">
+                <p>&copy; 2024-2025 运城袋鼠网球学院 版权所有</p>
+            </div>
         </div>
     </footer>
-    
-    <!-- 移动端底部导航 -->
-    <div class="mobile-bottom-nav">
-        <a href="#home" class="nav-item active">
-            <i class="fas fa-home"></i>
-            <span>首页</span>
-        </a>
-        <a href="#courses" class="nav-item">
-            <i class="fas fa-book"></i>
-            <span>课程</span>
-        </a>
-        <a href="#booking" class="nav-item">
-            <i class="fas fa-calendar-check"></i>
-            <span>预约</span>
-        </a>
-        <a href="#contact" class="nav-item">
-            <i class="fas fa-phone-alt"></i>
-            <span>联系</span>
-        </a>
-    </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // 移动端菜单切换
-        const menuToggle = document.getElementById('menuToggle');
-        const mainNav = document.getElementById('mainNav');
-        const overlay = document.getElementById('overlay');
-        
-        menuToggle.addEventListener('click', function() {
-            mainNav.classList.toggle('active');
-            overlay.classList.toggle('active');
-            document.body.classList.toggle('no-scroll');
-        });
-        
-        overlay.addEventListener('click', function() {
-            mainNav.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-        });
-        
-        // 导航链接点击后关闭菜单
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                mainNav.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.classList.remove('no-scroll');
+        $(document).ready(function() {
+            // 移动端菜单切换
+            $('.hamburger').click(function() {
+                $('.nav-links').toggleClass('active');
             });
-        });
-        
-        // 表单提交处理
-        document.querySelector('.booking-form form').addEventListener('submit', function(e) {
-            e.preventDefault();
             
-            // 获取表单数据
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
-            const court = document.getElementById('court').value;
-            
-            // 简单验证
-            if(!name || !phone || !date || time === "" || court === "") {
-                alert('请填写所有必填字段！');
-                return;
-            }
-            
-            // 这里应该是实际的表单提交逻辑
-            alert(`预约成功！\n姓名：${name}\n电话：${phone}\n日期：${date}\n时段：${document.getElementById('time').options[document.getElementById('time').selectedIndex].text}\n场地：${document.getElementById('court').options[document.getElementById('court').selectedIndex].text}`);
-            
-            // 重置表单
-            this.reset();
-        });
-        
-        // 导航平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+            // 平滑滚动
+            $('a[href*="#"]').on('click', function(e) {
                 e.preventDefault();
                 
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
+                $('html, body').animate(
+                    {
+                        scrollTop: $($(this).attr('href')).offset().top - 70,
+                    },
+                    500,
+                    'linear'
+                );
                 
-                window.scrollTo({
-                    top: targetElement.offsetTop - 70,
-                    behavior: 'smooth'
-                });
+                // 移动端点击后关闭菜单
+                if ($('.nav-links').hasClass('active')) {
+                    $('.nav-links').removeClass('active');
+                }
             });
-        });
-        
-        // 底部导航激活状态
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-            item.addEventListener('click', function() {
-                navItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
+            
+            // 预约表单提交
+            $('#bookingForm').submit(function(e) {
+                e.preventDefault();
+                alert('预约信息已提交，我们将尽快与您联系确认！');
+                $('#bookingForm')[0].reset();
             });
-        });
-        
-        // 动画网球
-        function createTennisBall() {
-            const ball = document.createElement('div');
-            ball.className = 'tennis-ball';
             
-            const size = Math.random() * 30 + 20; // 20-50px
-            ball.style.width = `${size}px`;
-            ball.style.height = `${size}px`;
-            
-            // 随机位置
-            ball.style.left = `${Math.random() * 100}%`;
-            ball.style.top = `${Math.random() * 100}%`;
-            
-            // 随机动画延迟
-            ball.style.animationDelay = `${Math.random() * 5}s`;
-            
-            document.querySelector('.hero').appendChild(ball);
-            
-            // 一段时间后移除
-            setTimeout(() => {
-                ball.remove();
-            }, 20000);
-        }
-        
-        // 每2秒创建一个新网球
-        setInterval(createTennisBall, 2000);
-        
-        // 初始化创建几个网球
-        for(let i = 0; i < 3; i++) {
-            createTennisBall();
-        }
-        
-        // 适配横屏模式
-        window.addEventListener('orientationchange', function() {
-            if (window.orientation === 90 || window.orientation === -90) {
-                document.querySelector('.hero').style.minHeight = '100vh';
-            } else {
-                document.querySelector('.hero').style.minHeight = '70vh';
-            }
+            // 导航栏滚动效果
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('header').addClass('scrolled');
+                } else {
+                    $('header').removeClass('scrolled');
+                }
+            });
         });
     </script>
 </body>
