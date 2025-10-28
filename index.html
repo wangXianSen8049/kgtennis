@@ -153,11 +153,33 @@
         /* 首页横幅 */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.postimg.cc/vbT5Jkch/banner.jpg') no-repeat center center/cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./image/banner.jpg') no-repeat center center/cover;
             color: white;
             display: flex;
             align-items: center;
             text-align: center;
+        }
+        /* 平板设备 */
+        @media (max-width: 1024px) {
+            .hero {
+                height: 100vh;
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./image/banner_zhong.jpg') no-repeat center center/cover;
+                color: white;
+                display: flex;
+                align-items: center;
+                text-align: center;
+            }
+        }
+        /* 移动设备 */
+        @media (max-width: 768px) {
+            .hero {
+                height: 100vh;
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./image/banner_xiao.jpg') no-repeat center center/cover;
+                color: white;
+                display: flex;
+                align-items: center;
+                text-align: center;
+            }
         }
         
         .hero-content {
@@ -475,7 +497,7 @@
         }
         .xiaohongshu {
             display: inline-block;
-            width: 85%;
+            width: 80%;
         }
 
         /* iOS特定优化 */
@@ -600,7 +622,7 @@
         <div class="container">
             <nav class="navbar">
                 <a class="logo" id="refreshLink">
-                    <img src='https://i.postimg.cc/TPbygyQ2/dai-shu-wang-qiulogo.png' alt="logo">
+                    <img src='./image/logo.png' alt="logo">
                     <span>运城袋鼠网球学院</span>
                 </a>
                 <ul class="nav-links">
@@ -644,7 +666,7 @@
                     <a href="#contact" class="btn more">了解更多</a>
                 </div>
                 <div class="about-image">
-                    <img src="https://i.postimg.cc/7YMrGqgz/you2-kao-bei.png" alt="关于我们">
+                    <img src="./image/you2.png" alt="关于我们">
                 </div>
             </div>
         </div>
@@ -657,7 +679,7 @@
             <div class="course-cards">
                 <div class="course-card">
                     <div class="course-img">
-                        <img src="https://i.postimg.cc/TwFQ35kg/ke1.jpg" alt="基础课程">
+                        <img src="./image/ke1.jpg" alt="基础课程">
                     </div>
                     <div class="course-info">
                         <h3>基础入门课程</h3>
@@ -666,7 +688,7 @@
                 </div>
                 <div class="course-card">
                     <div class="course-img">
-                        <img src="https://i.postimg.cc/8z6KJ48Z/ke2.jpg" alt="进阶课程">
+                        <img src="./image/ke2.jpg" alt="进阶课程">
                     </div>
                     <div class="course-info">
                         <h3>技术进阶课程</h3>
@@ -675,7 +697,7 @@
                 </div>
                 <div class="course-card">
                     <div class="course-img">
-                        <img src="https://i.postimg.cc/6qWQzSby/photo-1587280501635-a19de238a81e.avif" alt="专项训练">
+                        <img src="./image/ke3.jpg" alt="专项训练">
                     </div>
                     <div class="course-info">
                         <h3>专项训练课程</h3>
@@ -693,7 +715,7 @@
             <div class="coaches-container">
                 <div class="coach-card">
                     <div class="coach-img">
-                        <img src="https://i.postimg.cc/mZHcXN54/photo-1571019613454-1cb2f99b2d8b.avif" alt="教练1">
+                        <img src="./image/jiao1.jpg" alt="教练1">
                     </div>
                     <div class="coach-info">
                         <h3>张教练</h3>
@@ -703,7 +725,7 @@
                 </div>
                 <div class="coach-card">
                     <div class="coach-img">
-                        <img src="https://i.postimg.cc/59CH7qRV/photo-1507003211169-0a1dd7228f2d.avif" alt="教练2">
+                        <img src="./image/jiao2.jpg" alt="教练2">
                     </div>
                     <div class="coach-info">
                         <h3>李教练</h3>
@@ -713,7 +735,7 @@
                 </div>
                 <div class="coach-card">
                     <div class="coach-img">
-                        <img src="https://i.postimg.cc/TYr5K57L/liaolian3.jpg" alt="教练3">
+                        <img src="./image/liaolian3.jpg" alt="教练3">
                     </div>
                     <div class="coach-info">
                         <h3>王教练</h3>
@@ -794,13 +816,13 @@
                     </div>
                     <div class="social-links">
                         <a href="https://v.douyin.com/ttjGcOnvUjU/ 3@1.com :4pm"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><img class="xiaohongshu" src="https://i.postimg.cc/RZ6z73nx/xiao-hong-shu.png"></a>
+                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><img class="xiaohongshu" src="./image/hongshu.png"></a>
                         <a href="https://www.instagram.com/kangaroo_tennis?igsh=cHpvYzNkNzZrN2Jl&utm_source=qr"><i class="fab fa-instagram"></i></a>
                         <a href="https://mp.weixin.qq.com/s/QARrnrTVdUUt4ih6r-9j1Q"><i class="fab fa-weixin"></i></a>
                     </div>
                 </div>
                 <div class="map">
-                    <img src="https://i.postimg.cc/nLhDPzdf/map.jpg" alt="地图">
+                    <img src="./image/map.jpg" alt="地图">
                 </div>
             </div>
         </div>
@@ -841,7 +863,7 @@
                     <h3>关注我们</h3>
                     <div class="social-links">
                         <a href="https://v.douyin.com/ttjGcOnvUjU/ 3@1.com :4pm"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><img class="xiaohongshu" src="https://i.postimg.cc/RZ6z73nx/xiao-hong-shu.png"></a>
+                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><img class="xiaohongshu" src="./image/hongshu.png"></a>
                         <a href="https://www.instagram.com/kangaroo_tennis?igsh=cHpvYzNkNzZrN2Jl&utm_source=qr"><i class="fab fa-instagram"></i></a>
                         <a href="https://mp.weixin.qq.com/s/QARrnrTVdUUt4ih6r-9j1Q"><i class="fab fa-weixin"></i></a>
                     </div>
