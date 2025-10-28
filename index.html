@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>运城袋鼠网球学院 - 约球，交友，穿搭，进阶</title>
+    <!-- 网站收藏图标 (Favicon) -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* 全局样式 */
@@ -386,6 +390,7 @@
         
         .social-links a:hover {
             background-color: var(--primary-color);
+            color: #ffffff !important;
         }
         
         .map {
@@ -398,6 +403,7 @@
         
         .map img {
             width: 100%;
+            display: inline-block;
         }
         .more {
             margin-top: 10px;
@@ -441,6 +447,77 @@
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        /* 移动端输入框统一优化 */
+        input, textarea, select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        /* 输入框通用样式 */
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px; /* 关键：防止iOS缩放 */
+            background-color: #fff;
+            min-height: 50px; /* 统一最小高度 */
+            line-height: 1.4;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+        }
+
+        /* iOS特定优化 */
+        @supports (-webkit-touch-callout: none) {
+            .form-control {
+                -webkit-border-radius: 5px;
+                -webkit-appearance: none;
+                padding: 14px 15px;
+            }
+        }
+
+        /* Android特定优化 */
+        @supports not (-webkit-touch-callout: none) {
+            .form-control {
+                padding: 13px 15px;
+            }
+        }
+
+        /* 输入框焦点状态 */
+        .form-control:focus {
+            border-color: #ff6b35;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+        }
+
+        /* 选择框特殊处理 */
+        select.form-control {
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 45px;
+        }
+
+        /* 日期输入框特殊处理 */
+        input[type="date"].form-control {
+            position: relative;
+        }
+
+        input[type="date"].form-control::-webkit-calendar-picker-indicator {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.6;
+            cursor: pointer;
+        }
         
         /* 响应式设计 */
         @media (max-width: 992px) {
@@ -453,7 +530,7 @@
             .nav-links {
                 position: fixed;
                 top: 70px;
-                left: -100%;
+                right: -100%;
                 width: 100%;
                 height: calc(100vh - 70px);
                 background-color: white;
@@ -461,11 +538,11 @@
                 align-items: center;
                 justify-content: flex-start;
                 padding-top: 50px;
-                transition: left 0.3s ease;
+                transition: right 0.3s ease;
             }
             
             .nav-links.active {
-                left: 0;
+                right: 0;
             }
             
             .nav-links li {
@@ -497,6 +574,18 @@
             .hero p {
                 font-size: 1rem;
             }
+            form-control {
+                padding: 12px 15px;
+                min-height: 44px; /* 触摸友好的最小高度 */
+            }
+        }
+        /* 防止页面缩放 */
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            select:focus,
+            textarea:focus,
+            input:focus {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -505,7 +594,7 @@
     <header>
         <div class="container">
             <nav class="navbar">
-                <a href="#" class="logo">
+                <a href="javascript:location.reload();" class="logo">
                     <img src='https://i.postimg.cc/jjcbNWVW/dai-shu-wang-qiulogo.png' alt="logo">
                     <span>运城袋鼠网球学院</span>
                 </a>
@@ -550,7 +639,7 @@
                     <a href="#contact" class="btn more">了解更多</a>
                 </div>
                 <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="关于我们">
+                    <img src="https://i.postimg.cc/3rZMTWNp/photo-1595435934249-5df7ed86e1c0.avif" alt="关于我们">
                 </div>
             </div>
         </div>
@@ -572,7 +661,7 @@
                 </div>
                 <div class="course-card">
                     <div class="course-img">
-                        <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="进阶课程">
+                        <img src="https://i.postimg.cc/gjz045tk/photo-1554068865-24cecd4e34b8.avif" alt="进阶课程">
                     </div>
                     <div class="course-info">
                         <h3>技术进阶课程</h3>
@@ -581,7 +670,7 @@
                 </div>
                 <div class="course-card">
                     <div class="course-img">
-                        <img src="https://images.unsplash.com/photo-1587280501635-a19de238a81e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="专项训练">
+                        <img src="https://i.postimg.cc/6qWQzSby/photo-1587280501635-a19de238a81e.avif" alt="专项训练">
                     </div>
                     <div class="course-info">
                         <h3>专项训练课程</h3>
@@ -599,7 +688,7 @@
             <div class="coaches-container">
                 <div class="coach-card">
                     <div class="coach-img">
-                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="教练1">
+                        <img src="https://i.postimg.cc/mZHcXN54/photo-1571019613454-1cb2f99b2d8b.avif" alt="教练1">
                     </div>
                     <div class="coach-info">
                         <h3>张教练</h3>
@@ -609,7 +698,7 @@
                 </div>
                 <div class="coach-card">
                     <div class="coach-img">
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="教练2">
+                        <img src="https://i.postimg.cc/59CH7qRV/photo-1507003211169-0a1dd7228f2d.avif" alt="教练2">
                     </div>
                     <div class="coach-info">
                         <h3>李教练</h3>
@@ -619,7 +708,7 @@
                 </div>
                 <div class="coach-card">
                     <div class="coach-img">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="教练3">
+                        <img src="https://i.postimg.cc/VvtdJMhB/140fdbc284b3301f66ef9aa0725382d0.jpg" alt="教练3">
                     </div>
                     <div class="coach-info">
                         <h3>王教练</h3>
@@ -700,13 +789,13 @@
                     </div>
                     <div class="social-links">
                         <a href="https://v.douyin.com/ttjGcOnvUjU/ 3@1.com :4pm"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><i class="fa fa-book-open" aria-hidden="true"></i></a>
                         <a href="https://www.instagram.com/kangaroo_tennis?igsh=cHpvYzNkNzZrN2Jl&utm_source=qr"><i class="fab fa-instagram"></i></a>
                         <a href="https://mp.weixin.qq.com/s/QARrnrTVdUUt4ih6r-9j1Q"><i class="fab fa-weixin"></i></a>
                     </div>
                 </div>
                 <div class="map">
-                    <img src="https://i.postimg.cc/NFsq0BCx/1040g3k831ff057jp6i9g4amebov2jl2e3goa4n0.jpg" alt="地图">
+                    <img src="https://i.postimg.cc/nz7mN61z/IMG-3998.jpg" alt="地图">
                 </div>
             </div>
         </div>
@@ -747,7 +836,7 @@
                     <h3>关注我们</h3>
                     <div class="social-links">
                         <a href="https://v.douyin.com/ttjGcOnvUjU/ 3@1.com :4pm"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                        <a href="https://xhslink.com/m/9SbRHrMsBoG"><i class="fa fa-book-open" aria-hidden="true"></i></a>
                         <a href="https://www.instagram.com/kangaroo_tennis?igsh=cHpvYzNkNzZrN2Jl&utm_source=qr"><i class="fab fa-instagram"></i></a>
                         <a href="https://mp.weixin.qq.com/s/QARrnrTVdUUt4ih6r-9j1Q"><i class="fab fa-weixin"></i></a>
                     </div>
@@ -799,6 +888,12 @@
                 } else {
                     $('header').removeClass('scrolled');
                 }
+            });
+
+            // 移动端输入框优化 - 防止页面缩放
+            $('input, select, textarea').on('focus', function() {
+                // 确保字体大小至少16px防止iOS缩放
+                $(this).css('font-size', '16px');
             });
         });
     </script>
