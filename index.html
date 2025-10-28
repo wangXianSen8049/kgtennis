@@ -112,6 +112,7 @@
             font-weight: bold;
             font-size: 1.5rem;
             color: var(--dark-color);
+            cursor: pointer;
         }
         
         .logo i {
@@ -598,7 +599,7 @@
     <header>
         <div class="container">
             <nav class="navbar">
-                <a href="javascript:location.reload();" class="logo">
+                <a class="logo" id="refreshLink">
                     <img src='https://i.postimg.cc/jjcbNWVW/dai-shu-wang-qiulogo.png' alt="logo">
                     <span>运城袋鼠网球学院</span>
                 </a>
@@ -899,6 +900,19 @@
                 // 确保字体大小至少16px防止iOS缩放
                 $(this).css('font-size', '16px');
             });
+            // 刷新并回到顶部
+            $('#refreshLink').click(function(e) {
+                e.preventDefault();
+                window.scrollTo(0, 0);
+                sessionStorage.setItem('scrollToTop', 'true');
+                location.reload();
+            });
+
+            // 页面加载时检查是否需要滚动到顶部
+            if (sessionStorage.getItem('scrollToTop') === 'true') {
+                window.scrollTo(0, 0);
+                sessionStorage.removeItem('scrollToTop');
+            }
         });
     </script>
 </body>
