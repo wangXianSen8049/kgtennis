@@ -497,7 +497,7 @@
         }
         .xiaohongshu {
             display: inline-block;
-            width: 80%;
+            width: 75%;
         }
 
         /* iOS特定优化 */
@@ -780,9 +780,11 @@
                         <label for="court">场地类型</label>
                         <select id="court" class="form-control" required>
                             <option value="">选择场地类型</option>
+                            <option value="塑胶">塑胶</option>
                             <option value="硬地">硬地</option>
-                            <option value="红土">红土</option>
-                            <option value="草地">草地</option>
+                            <option value="室内">室内</option>
+                            <option value="红土" disabled>红土</option>
+                            <option value="草地" disabled>草地</option>
                         </select>
                     </div>
                     <button type="submit" class="btn">提交预约</button>
