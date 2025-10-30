@@ -186,18 +186,18 @@
         
         .cloud {
             position: absolute;
-            background: rgba(240, 240, 240, 0.65);
+            background: rgba(230, 230, 230, 0.65);
             border-radius: 1000px;
             filter: blur(8px);
             animation: cloudMove linear infinite;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(225, 225, 225, 0.2);
         }
         
         .cloud:before,
         .cloud:after {
             content: '';
             position: absolute;
-            background: rgba(235, 235, 235, 0.6);
+            background: rgba(230, 230, 230, 0.6);
             border-radius: 1000px;
             filter: blur(6px);
         }
@@ -230,7 +230,7 @@
                 transform: translateX(50vw) translateY(5px);
                 opacity: 0.7;
             }
-            90% {
+            80% {
                 transform: translateX(10vw) translateY(-3px);
                 opacity: 0.5;
             }
@@ -243,7 +243,7 @@
         /* 云朵1 - 大而慢，高云层 */
         .cloud1 {
             width: 220px;
-            height: 50px;
+            height: 40px;
             top: 15%;
             animation-duration: 90s;
             animation-delay: 0s;
@@ -254,22 +254,22 @@
         /* 云朵2 - 中等速度，中云层 */
         .cloud2 {
             width: 180px;
-            height: 35px;
+            height: 30px;
             top: 25%;
             animation-duration: 70s;
             animation-delay: 0s;
-            background: rgba(250, 250, 250, 0.5);
+            background: rgba(240, 240, 240, 0.5);
             filter: blur(8px);
         }
         
         /* 云朵3 - 小而快，低云层 */
         .cloud3 {
             width: 140px;
-            height: 40px;
+            height: 18px;
             top: 30%;
             animation-duration: 50s;
             animation-delay: 0s;
-            background: rgba(245, 245, 245, 0.45);
+            background: rgba(235, 235, 235, 0.45);
             filter: blur(6px);
         }
         
@@ -311,9 +311,9 @@
             }
             
             /* 平板设备上减小云朵大小 */
-            .cloud1 { width: 180px; height: 25px; }
-            .cloud2 { width: 150px; height: 45px; }
-            .cloud3 { width: 120px; height: 35px; }
+            .cloud1 { width: 200px; height: 25px; }
+            .cloud2 { width: 170px; height: 45px; }
+            .cloud3 { width: 120px; height: 25px; }
         }
         
         /* 移动设备 */
@@ -329,8 +329,8 @@
             
             /* 移动设备上进一步减小云朵大小 */
             .cloud1 { width: 140px; height: 15px; }
-            .cloud2 { width: 120px; height: 35px; }
-            .cloud3 { width: 100px; height: 30px; }
+            .cloud2 { width: 120px; height: 30px; }
+            .cloud3 { width: 80px; height: 20px; }
             
             .hero h1 {
                 font-size: 2rem;
