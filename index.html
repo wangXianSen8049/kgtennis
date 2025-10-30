@@ -15,8 +15,6 @@
     <meta property="og:url" content="https://wangxiansen8049.github.io/kgtennis/">
     <meta property="og:type" content="website">
     
-    <!-- 百度站长平台验证 -->
-    <meta name="baidu-site-verification" content="your-verification-code">
     <!-- 网站收藏图标 (Favicon) -->
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
@@ -171,33 +169,116 @@
             display: flex;
             align-items: center;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        /* 平板设备 */
-        @media (max-width: 1024px) {
-            .hero {
-                height: 100vh;
-                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.postimg.cc/0Qhsgq3P/banner-zhong.jpg') no-repeat center center/cover;
-                color: white;
-                display: flex;
-                align-items: center;
-                text-align: center;
+        
+        /* 云朵样式 - 优化版 */
+        .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: rgba(240, 240, 240, 0.65);
+            border-radius: 1000px;
+            filter: blur(8px);
+            animation: cloudMove linear infinite;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .cloud:before,
+        .cloud:after {
+            content: '';
+            position: absolute;
+            background: rgba(235, 235, 235, 0.6);
+            border-radius: 1000px;
+            filter: blur(6px);
+        }
+        
+        .cloud:before {
+            width: 50%;
+            height: 50%;
+            top: -25%;
+            left: 20%;
+        }
+        
+        .cloud:after {
+            width: 40%;
+            height: 40%;
+            top: -20%;
+            right: 20%;
+        }
+        
+        /* 云朵动画 - 优化版 */
+        @keyframes cloudMove {
+            0% { 
+                transform: translateX(100vw) translateY(0);
+                opacity: 0.6;
             }
-        }
-        /* 移动设备 */
-        @media (max-width: 768px) {
-            .hero {
-                height: 100vh;
-                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.postimg.cc/tTsjmgBD/banner-xiao.jpg') no-repeat center center/cover;
-                color: white;
-                display: flex;
-                align-items: center;
-                text-align: center;
+            10% {
+                transform: translateX(90vw) translateY(-5px);
+                opacity: 0.65;
+            }
+            50% {
+                transform: translateX(50vw) translateY(5px);
+                opacity: 0.7;
+            }
+            90% {
+                transform: translateX(10vw) translateY(-3px);
+                opacity: 0.5;
+            }
+            100% { 
+                transform: translateX(-220px) translateY(0);
+                opacity: 0.62;
             }
         }
         
+        /* 云朵1 - 大而慢，高云层 */
+        .cloud1 {
+            width: 220px;
+            height: 50px;
+            top: 15%;
+            animation-duration: 90s;
+            animation-delay: 0s;
+            background: rgba(245, 245, 245, 0.45);
+            filter: blur(10px);
+        }
+        
+        /* 云朵2 - 中等速度，中云层 */
+        .cloud2 {
+            width: 180px;
+            height: 35px;
+            top: 25%;
+            animation-duration: 70s;
+            animation-delay: 0s;
+            background: rgba(250, 250, 250, 0.5);
+            filter: blur(8px);
+        }
+        
+        /* 云朵3 - 小而快，低云层 */
+        .cloud3 {
+            width: 140px;
+            height: 40px;
+            top: 30%;
+            animation-duration: 50s;
+            animation-delay: 0s;
+            background: rgba(245, 245, 245, 0.45);
+            filter: blur(6px);
+        }
+        
+        /* 确保内容在云层之上 */
         .hero-content {
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
         
         .hero h1 {
@@ -216,6 +297,44 @@
             font-weight: bold;
             margin: 20px 0;
             color: var(--primary-color);
+        }
+        
+        /* 平板设备 */
+        @media (max-width: 1024px) {
+            .hero {
+                height: 100vh;
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.postimg.cc/0Qhsgq3P/banner-zhong.jpg') no-repeat center center/cover;
+                color: white;
+                display: flex;
+                align-items: center;
+                text-align: center;
+            }
+            
+            /* 平板设备上减小云朵大小 */
+            .cloud1 { width: 180px; height: 25px; }
+            .cloud2 { width: 150px; height: 45px; }
+            .cloud3 { width: 120px; height: 35px; }
+        }
+        
+        /* 移动设备 */
+        @media (max-width: 768px) {
+            .hero {
+                height: 100vh;
+                background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.postimg.cc/tTsjmgBD/banner-xiao.jpg') no-repeat center center/cover;
+                color: white;
+                display: flex;
+                align-items: center;
+                text-align: center;
+            }
+            
+            /* 移动设备上进一步减小云朵大小 */
+            .cloud1 { width: 140px; height: 15px; }
+            .cloud2 { width: 120px; height: 35px; }
+            .cloud3 { width: 100px; height: 30px; }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
         }
         
         /* 关于我们 */
@@ -711,6 +830,13 @@
 
     <!-- 首页横幅 -->
     <section class="hero" id="home">
+        <!-- 云朵动画 - 优化版，只保留3朵云 -->
+        <div class="clouds">
+            <div class="cloud cloud1"></div>
+            <div class="cloud cloud2"></div>
+            <div class="cloud cloud3"></div>
+        </div>
+        
         <div class="container">
             <div class="hero-content">
                 <h1>运城袋鼠网球学院</h1>
@@ -979,7 +1105,7 @@
             // 预约表单提交
             $('#bookingForm').submit(function(e) {
                 e.preventDefault();
-                alert('预约信息已提交，我们将尽快与您联系！');
+                alert('已提交，我们将尽快与您联系！');
                 $('#bookingForm')[0].reset();
             });
             
@@ -997,6 +1123,7 @@
                 // 确保字体大小至少16px防止iOS缩放
                 $(this).css('font-size', '16px');
             });
+            
             // 刷新并回到顶部
             $('#refreshLink').click(function(e) {
                 e.preventDefault();
@@ -1010,6 +1137,27 @@
                 window.scrollTo(0, 0);
                 sessionStorage.removeItem('scrollToTop');
             }
+
+            // 云朵随机位置初始化
+            function initClouds() {
+                $('.cloud').each(function() {
+                    // 生成随机水平位置 (0% 到 100%)
+                    const randomX = Math.random() * 100;
+                    // 生成随机垂直偏移 (-10px 到 10px)
+                    const randomY = (Math.random() * 20) - 10;
+                    // 生成随机动画延迟 (0s 到 10s)
+                    const randomDelay = Math.random() * 10;
+                    
+                    // 设置初始位置
+                    $(this).css({
+                        'transform': `translateX(${randomX}vw) translateY(${randomY}px)`,
+                        'animation-delay': `${randomDelay}s`
+                    });
+                });
+            }
+            
+            // 初始化云朵位置
+            initClouds();
         });
     </script>
 </body>
