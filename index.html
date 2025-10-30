@@ -186,18 +186,18 @@
         
         .cloud {
             position: absolute;
-            background: rgba(230, 230, 230, 0.65);
+            background: rgba(100, 100, 100, 0.85); /* 深灰色接近黑色 */
             border-radius: 1000px;
             filter: blur(8px);
             animation: cloudMove linear infinite;
-            box-shadow: 0 0 20px rgba(225, 225, 225, 0.2);
+            box-shadow: 0 0 20px rgba(80, 80, 80, 0.5); /* 更深的阴影 */
         }
         
         .cloud:before,
         .cloud:after {
             content: '';
             position: absolute;
-            background: rgba(230, 230, 230, 0.6);
+            background: rgba(140, 140, 140, 0.8); /* 更深的灰色 */
             border-radius: 1000px;
             filter: blur(6px);
         }
@@ -242,34 +242,34 @@
         
         /* 云朵1 - 大而慢，高云层 */
         .cloud1 {
-            width: 220px;
-            height: 40px;
+            width: 250px;
+            height: 70px;
             top: 15%;
             animation-duration: 90s;
             animation-delay: 0s;
-            background: rgba(245, 245, 245, 0.45);
+            background: rgba(160, 160, 160, 0.75);
             filter: blur(10px);
         }
         
         /* 云朵2 - 中等速度，中云层 */
         .cloud2 {
-            width: 180px;
-            height: 30px;
+            width: 240px;
+            height: 35px;
             top: 25%;
             animation-duration: 70s;
             animation-delay: 0s;
-            background: rgba(240, 240, 240, 0.5);
+            background: rgba(150, 150, 150, 0.7);
             filter: blur(8px);
         }
         
         /* 云朵3 - 小而快，低云层 */
         .cloud3 {
-            width: 140px;
-            height: 18px;
+            width: 220px;
+            height: 50px;
             top: 30%;
             animation-duration: 50s;
             animation-delay: 0s;
-            background: rgba(235, 235, 235, 0.45);
+            background: rgba(140, 140, 140, 0.65);
             filter: blur(6px);
         }
         
@@ -311,9 +311,9 @@
             }
             
             /* 平板设备上减小云朵大小 */
-            .cloud1 { width: 200px; height: 25px; }
-            .cloud2 { width: 170px; height: 45px; }
-            .cloud3 { width: 120px; height: 25px; }
+            .cloud1 { width: 240px; height: 60px; }
+            .cloud2 { width: 200px; height: 35px; }
+            .cloud3 { width: 220px; height: 50px; }
         }
         
         /* 移动设备 */
@@ -328,9 +328,9 @@
             }
             
             /* 移动设备上进一步减小云朵大小 */
-            .cloud1 { width: 140px; height: 15px; }
-            .cloud2 { width: 120px; height: 30px; }
-            .cloud3 { width: 80px; height: 20px; }
+            .cloud1 { width: 140px; height: 25px; }
+            .cloud2 { width: 110px; height: 30px; }
+            .cloud3 { width: 130px; height: 20px; }
             
             .hero h1 {
                 font-size: 2rem;
