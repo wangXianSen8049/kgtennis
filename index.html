@@ -1141,20 +1141,17 @@
             // 云朵随机位置初始化
             function initClouds() {
                 $('.cloud').each(function() {
-                    // 生成随机水平位置 (0% 到 100%)
-                    const randomX = Math.random() * 100;
-                    // 生成随机垂直偏移 (-10px 到 10px)
-                    const randomY = (Math.random() * 20) - 10;
-                    // 生成随机动画延迟 (0s 到 10s)
-                    const randomDelay = Math.random() * 10;
+                    // 生成随机进度 (0 到 1)
+                    const randomProgress = Math.random();
+                    // 获取该云朵的动画持续时间
+                    const duration = parseFloat($(this).css('animation-duration')) || 60; // 默认60秒
+                    // 计算负延迟
+                    const negativeDelay = -randomProgress * duration;
                     
-                    // 设置初始位置
-                    $(this).css({
-                        'transform': `translateX(${randomX}vw) translateY(${randomY}px)`,
-                        'animation-delay': `${randomDelay}s`
+                    // 设置动画延迟
+                    $(this).css('animation-delay', `${negativeDelay}s`);
                     });
-                });
-            }
+                }
             
             // 初始化云朵位置
             initClouds();
