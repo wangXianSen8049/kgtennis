@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运城袋鼠网球学院 - 后台管理系统</title>
+    <meta name="description" content="运城袋鼠网球学院提供专业网球培训课程，包括基础入门、技术进阶和专项训练。我们的教练团队经验丰富，提供场地预约服务，位于运城市盐湖区大禹街与园西路交叉口东320米。">
+    <meta name="keywords" content="运城网球培训,袋鼠网球学院,网球课程,网球教练,网球场地预约,运城体育培训">
+    <link rel="canonical" href="https://wangxiansen8049.github.io/kgtennis/">
+    
+    <!-- Open Graph 标签 (用于社交媒体分享) -->
+    <meta property="og:title" content="运城袋鼠网球学院 - 专业网球培训">
+    <meta property="og:description" content="约球，交友，穿搭，进阶 - 运城专业网球培训机构">
+    <meta property="og:image" content="https://i.postimg.cc/TPbygyQ2/dai-shu-wang-qiulogo.png">
+    <meta property="og:url" content="https://wangxiansen8049.github.io/kgtennis/">
+    <meta property="og:type" content="website">
+    
+    <!-- 网站收藏图标 (Favicon) -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a5f23 0%, #2d8c3c 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            display: flex;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .login-left {
+            flex: 1;
+            background: linear-gradient(rgba(26, 95, 35, 0.8), rgba(45, 140, 60, 0.8)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%231a5f23" width="100" height="100"/><path fill="%232d8c3c" d="M0 0h100v100H0z"/><circle fill="%23ffffff" cx="50" cy="50" r="40"/><path fill="none" stroke="%23ffffff" stroke-width="2" d="M30 50h40"/></svg>');
+            background-size: cover;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            position: relative;
+        }
+        
+        .login-right {
+            flex: 1;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            color: #1a5f23;
+            font-size: 24px;
+        }
+        .logo-icon img {
+            width: 100%;
+            display: inline-block;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .welcome-text {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .description {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list i {
+            margin-right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-form {
+            width: 100%;
+        }
+        
+        .form-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a5f23;
+        }
+        
+        .form-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: #2d8c3c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(45, 140, 60, 0.1);
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
+        }
+        
+        .forgot-password {
+            color: #2d8c3c;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2d8c3c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(45, 140, 60, 0.3);
+        }
+        
+        .login-btn:hover {
+            background: #1a5f23;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(45, 140, 60, 0.4);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .login-left {
+                padding: 30px;
+                text-align: center;
+            }
+            
+            .login-right {
+                padding: 40px 30px;
+            }
+            
+            .welcome-text {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                min-height: auto;
+            }
+            
+            .login-left, .login-right {
+                padding: 25px 20px;
+            }
+            
+            .welcome-text {
+                font-size: 24px;
+            }
+            
+            .form-title {
+                font-size: 24px;
+            }
+            
+            .options {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .forgot-password {
+                margin-top: 10px;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tennis-ball {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #ffeb3b;
+            border-radius: 50%;
+            bottom: 40px;
+            right: 40px;
+            animation: bounce 3s infinite;
+        }
+        
+        .tennis-ball:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: #333;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4CAF50;
+            margin-right: 5px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(0.8); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="https://i.postimg.cc/TPbygyQ2/dai-shu-wang-qiulogo.png" alt="">
+                </div>
+                <div class="logo-text">袋鼠网球学院</div>
+            </div>
+            <h1 class="welcome-text">欢迎来到后台管理系统</h1>
+            <p class="description">运城袋鼠网球学院专业后台管理系统，帮助您高效管理学员信息、课程安排、财务数据等核心业务。</p>
+            
+            <ul class="feature-list">
+                <li><i class="fas fa-users"></i> 学员信息管理系统</li>
+                <li><i class="fas fa-calendar-alt"></i> 智能课程排期</li>
+                <li><i class="fas fa-chart-line"></i> 数据统计与分析</li>
+                <li><i class="fas fa-file-invoice-dollar"></i> 财务与账单管理</li>
+            </ul>
+            
+            <div class="tennis-ball"></div>
+        </div>
+        
+        <div class="login-right">
+            <form class="login-form" id="loginForm">
+                <h2 class="form-title">管理员登录</h2>
+                <p class="form-subtitle">请输入您的账号和密码登录系统 <span class="pulse"></span></p>
+                
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" class="form-control" placeholder="请输入用户名">
+                    </div>
+                    <div class="error-message" id="usernameError">用户名不能为空</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" class="form-control" placeholder="请输入密码">
+                    </div>
+                    <div class="error-message" id="passwordError">密码不能为空</div>
+                </div>
+                
+                <div class="options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">记住我</label>
+                    </div>
+                    <a href="#" class="forgot-password">忘记密码?</a>
+                </div>
+                
+                <button type="submit" class="login-btn">登录系统</button>
+                
+                <div class="copyright">
+                    &copy; 2025 运城袋鼠网球学院. 保留所有权利.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // 表单提交验证
+            $('#loginForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                let isValid = true;
+                const username = $('#username').val().trim();
+                const password = $('#password').val().trim();
+                
+                // 验证用户名
+                if (username === '') {
+                    $('#usernameError').fadeIn();
+                    isValid = false;
+                } else {
+                    $('#usernameError').fadeOut();
+                }
+                
+                // 验证密码
+                if (password === '') {
+                    $('#passwordError').fadeIn();
+                    isValid = false;
+                } else {
+                    $('#passwordError').fadeOut();
+                }
+                
+                // 如果验证通过，模拟登录
+                if (isValid) {
+                    $('.login-btn').html('<i class="fas fa-spinner fa-spin"></i> 登录中...').prop('disabled', true);
+                    
+                    // 模拟网络请求延迟
+                    setTimeout(function() {
+                        // 在实际应用中，这里应该是AJAX请求
+                        if (username === 'admin' && password === 'admin123') {
+                            // 登录成功
+                            alert('登录成功！即将跳转到管理后台...');
+                            // 在实际应用中，这里应该是页面跳转
+                        } else {
+                            // 登录失败
+                            alert('用户名或密码错误！请重试。');
+                            $('.login-btn').html('登录系统').prop('disabled', false);
+                        }
+                    }, 1500);
+                }
+            });
+            
+            // 输入时实时验证
+            $('#username, #password').on('input', function() {
+                const field = $(this);
+                const errorId = field.attr('id') + 'Error';
+                
+                if (field.val().trim() !== '') {
+                    $('#' + errorId).fadeOut();
+                }
+            });
+            
+            // 忘记密码点击事件
+            $('.forgot-password').on('click', function(e) {
+                e.preventDefault();
+                alert('请联系系统管理员重置密码！\n电话：0359-1234567\n邮箱：admin@kangarootennis.com');
+            });
+        });
+    </script>
+</body>
+</html>
