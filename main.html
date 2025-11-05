@@ -47,6 +47,7 @@
             color: var(--text-color);
             display: flex;
             min-height: 100vh;
+            transition: all 0.3s;
         }
         
         /* 侧边栏样式 */
@@ -56,6 +57,11 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s;
             z-index: 100;
+            overflow: hidden;
+        }
+        
+        .sidebar.collapsed {
+            width: 70px;
         }
         
         .sidebar-header {
@@ -63,11 +69,13 @@
             display: flex;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
         
         .logo {
             display: flex;
             align-items: center;
+            transition: all 0.3s;
         }
         
         .logo-icon {
@@ -81,6 +89,7 @@
             margin-right: 10px;
             color: white;
             font-size: 20px;
+            flex-shrink: 0;
         }
         .logo-icon img {
             width: 100%;
@@ -91,6 +100,13 @@
             font-size: 18px;
             font-weight: 700;
             color: var(--primary-color);
+            transition: opacity 0.3s;
+        }
+        
+        .sidebar.collapsed .logo-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
         }
         
         .sidebar-menu {
@@ -105,6 +121,7 @@
             text-decoration: none;
             transition: all 0.3s;
             border-left: 3px solid transparent;
+            white-space: nowrap;
         }
         
         .menu-item:hover {
@@ -122,6 +139,29 @@
             margin-right: 10px;
             width: 20px;
             text-align: center;
+            flex-shrink: 0;
+        }
+        
+        .sidebar.collapsed .menu-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+        
+        /* 移动端遮罩层 */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
         }
         
         /* 主内容区样式 */
@@ -130,6 +170,11 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .main-content.expanded {
+            margin-left: 0;
         }
         
         .top-header {
@@ -139,6 +184,7 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: relative;
         }
         
         .page-title {
@@ -146,9 +192,32 @@
             font-weight: 600;
         }
         
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .toggle-sidebar {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: 16px;
+            transition: all 0.3s;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .toggle-sidebar:hover {
+            color: var(--primary-color);
+            background: var(--primary-light);
+        }
+        
         .user-info {
             display: flex;
             align-items: center;
+            position: relative;
         }
         
         .user-avatar {
@@ -162,6 +231,44 @@
             align-items: center;
             margin-right: 10px;
             font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 10px 0;
+            min-width: 150px;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .user-dropdown.show {
+            display: block;
+        }
+        
+        .user-dropdown-item {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .user-dropdown-item:hover {
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+        
+        .user-dropdown-item i {
+            margin-right: 8px;
+            width: 16px;
+            text-align: center;
         }
         
         .content-area {
@@ -289,6 +396,44 @@
             background-color: #f9f9f9;
         }
         
+        /* 分页样式 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            list-style: none;
+        }
+        
+        .pagination li {
+            margin: 0 5px;
+        }
+        
+        .pagination a {
+            display: inline-block;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .pagination a:hover {
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+        
+        .pagination a.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .pagination a.disabled {
+            color: var(--text-light);
+            pointer-events: none;
+        }
+        
         /* 按钮样式 */
         .btn {
             padding: 8px 15px;
@@ -395,14 +540,41 @@
             color: var(--danger-color);
         }
         
+        /* 手机端侧边栏样式 */
+        .mobile-sidebar-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-color);
+            margin-right: 15px;
+        }
+        
         /* 响应式设计 */
         @media (max-width: 992px) {
             .sidebar {
                 width: 70px;
             }
             
+            .sidebar:not(.collapsed) {
+                width: 250px;
+                position: fixed;
+                height: 100%;
+                z-index: 1000;
+            }
+            
+            .main-content:not(.expanded) {
+                margin-left: 70px;
+            }
+            
             .logo-text, .menu-text {
                 display: none;
+            }
+            
+            .sidebar:not(.collapsed) .logo-text,
+            .sidebar:not(.collapsed) .menu-text {
+                display: block;
             }
             
             .menu-item {
@@ -410,9 +582,19 @@
                 padding: 15px;
             }
             
+            .sidebar:not(.collapsed) .menu-item {
+                justify-content: flex-start;
+                padding: 12px 20px;
+            }
+            
             .menu-item i {
                 margin-right: 0;
                 font-size: 18px;
+            }
+            
+            .sidebar:not(.collapsed) .menu-item i {
+                margin-right: 10px;
+                font-size: 16px;
             }
         }
         
@@ -422,12 +604,25 @@
             }
             
             .sidebar {
-                width: 100%;
-                height: auto;
+                width: 250px;
+                height: 100%;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                z-index: 1000;
+                transition: left 0.3s;
+            }
+            
+            .sidebar.mobile-open {
+                left: 0;
+            }
+            
+            .sidebar.collapsed {
+                width: 250px;
             }
             
             .sidebar-menu {
-                display: flex;
+                display: block;
                 overflow-x: auto;
             }
             
@@ -435,6 +630,7 @@
                 flex-shrink: 0;
                 border-left: none;
                 border-bottom: 3px solid transparent;
+                justify-content: flex-start;
             }
             
             .menu-item.active {
@@ -442,8 +638,25 @@
                 border-bottom-color: var(--primary-color);
             }
             
+            .menu-item i {
+                margin-right: 10px;
+                font-size: 16px;
+            }
+            
             .stats-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+            }
+            
+            .mobile-sidebar-toggle {
+                display: block;
+            }
+            
+            .toggle-sidebar {
+                display: none;
             }
         }
         
@@ -506,6 +719,9 @@
     </style>
 </head>
 <body>
+    <!-- 移动端遮罩层 -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <!-- 侧边导航栏 -->
     <div class="sidebar">
         <div class="sidebar-header">
@@ -547,12 +763,21 @@
     <!-- 主内容区域 -->
     <div class="main-content">
         <div class="top-header">
+            <button class="mobile-sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
             <h1 class="page-title" id="pageTitle">仪表盘</h1>
-            <div class="user-info">
-                <div class="user-avatar">管</div>
-                <div>
-                    <div>管理员</div>
-                    <div style="font-size: 12px; color: var(--text-light);">系统管理员</div>
+            <div class="header-controls">
+                <button class="toggle-sidebar">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">管</div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="#" class="user-dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> 退出登录
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -641,7 +866,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="data-table">
+                            <table class="data-table" id="dashboardTable">
                                 <thead>
                                     <tr>
                                         <th>学员ID</th>
@@ -654,51 +879,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>STU202305001</td>
-                                        <td>张三</td>
-                                        <td>138****1234</td>
-                                        <td>青少年基础班</td>
-                                        <td>2023-05-15</td>
-                                        <td><span class="badge badge-success">在读</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>STU202305002</td>
-                                        <td>李四</td>
-                                        <td>139****5678</td>
-                                        <td>成人提高班</td>
-                                        <td>2023-05-12</td>
-                                        <td><span class="badge badge-success">在读</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>STU202305003</td>
-                                        <td>王五</td>
-                                        <td>136****9012</td>
-                                        <td>一对一私教</td>
-                                        <td>2023-05-10</td>
-                                        <td><span class="badge badge-warning">待缴费</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <!-- 数据将通过JavaScript动态生成 -->
                                 </tbody>
                             </table>
                         </div>
+                        <ul class="pagination" id="dashboardPagination">
+                            <!-- 分页将通过JavaScript动态生成 -->
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -714,7 +901,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="data-table">
+                            <table class="data-table" id="studentsTable">
                                 <thead>
                                     <tr>
                                         <th>学员ID</th>
@@ -729,57 +916,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>STU202305001</td>
-                                        <td>张三</td>
-                                        <td>男</td>
-                                        <td>15</td>
-                                        <td>138****1234</td>
-                                        <td>青少年基础班</td>
-                                        <td>2023-05-15</td>
-                                        <td><span class="badge badge-success">在读</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>STU202304015</td>
-                                        <td>李四</td>
-                                        <td>女</td>
-                                        <td>28</td>
-                                        <td>139****5678</td>
-                                        <td>成人提高班</td>
-                                        <td>2023-04-20</td>
-                                        <td><span class="badge badge-success">在读</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>STU202303028</td>
-                                        <td>王五</td>
-                                        <td>男</td>
-                                        <td>35</td>
-                                        <td>136****9012</td>
-                                        <td>一对一私教</td>
-                                        <td>2023-03-10</td>
-                                        <td><span class="badge badge-warning">暂停</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <!-- 数据将通过JavaScript动态生成 -->
                                 </tbody>
                             </table>
                         </div>
+                        <ul class="pagination" id="studentsPagination">
+                            <!-- 分页将通过JavaScript动态生成 -->
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -795,7 +938,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="data-table">
+                            <table class="data-table" id="coursesTable">
                                 <thead>
                                     <tr>
                                         <th>课程ID</th>
@@ -809,54 +952,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>CRS202305001</td>
-                                        <td>青少年基础班</td>
-                                        <td>团体课</td>
-                                        <td>张教练</td>
-                                        <td>周一、三、五 16:00-17:30</td>
-                                        <td>12/15</td>
-                                        <td><span class="badge badge-success">进行中</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>CRS202305002</td>
-                                        <td>成人提高班</td>
-                                        <td>团体课</td>
-                                        <td>李教练</td>
-                                        <td>周二、四、六 19:00-20:30</td>
-                                        <td>8/10</td>
-                                        <td><span class="badge badge-success">进行中</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>CRS202304005</td>
-                                        <td>一对一私教</td>
-                                        <td>私教课</td>
-                                        <td>王教练</td>
-                                        <td>按预约时间</td>
-                                        <td>1/1</td>
-                                        <td><span class="badge badge-warning">暂停招生</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <!-- 数据将通过JavaScript动态生成 -->
                                 </tbody>
                             </table>
                         </div>
+                        <ul class="pagination" id="coursesPagination">
+                            <!-- 分页将通过JavaScript动态生成 -->
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -872,7 +974,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="data-table">
+                            <table class="data-table" id="coachesTable">
                                 <thead>
                                     <tr>
                                         <th>教练ID</th>
@@ -886,54 +988,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>TCH202201001</td>
-                                        <td>张教练</td>
-                                        <td>男</td>
-                                        <td>138****1111</td>
-                                        <td>青少年基础班、成人入门班</td>
-                                        <td>2022-01-15</td>
-                                        <td><span class="badge badge-success">在职</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>TCH202203005</td>
-                                        <td>李教练</td>
-                                        <td>女</td>
-                                        <td>139****2222</td>
-                                        <td>成人提高班、青少年进阶班</td>
-                                        <td>2022-03-10</td>
-                                        <td><span class="badge badge-success">在职</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>TCH202209012</td>
-                                        <td>王教练</td>
-                                        <td>男</td>
-                                        <td>136****3333</td>
-                                        <td>一对一私教、高级技巧班</td>
-                                        <td>2022-09-05</td>
-                                        <td><span class="badge badge-warning">休假</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <!-- 数据将通过JavaScript动态生成 -->
                                 </tbody>
                             </table>
                         </div>
+                        <ul class="pagination" id="coachesPagination">
+                            <!-- 分页将通过JavaScript动态生成 -->
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -949,7 +1010,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="data-table">
+                            <table class="data-table" id="financeTable">
                                 <thead>
                                     <tr>
                                         <th>交易ID</th>
@@ -963,54 +1024,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>TRX20230515001</td>
-                                        <td>张三</td>
-                                        <td>青少年基础班</td>
-                                        <td>学费收入</td>
-                                        <td>¥2,800</td>
-                                        <td>2023-05-15</td>
-                                        <td><span class="badge badge-success">已支付</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>TRX20230512001</td>
-                                        <td>李四</td>
-                                        <td>成人提高班</td>
-                                        <td>学费收入</td>
-                                        <td>¥3,200</td>
-                                        <td>2023-05-12</td>
-                                        <td><span class="badge badge-success">已支付</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>TRX20230510001</td>
-                                        <td>王五</td>
-                                        <td>一对一私教</td>
-                                        <td>学费收入</td>
-                                        <td>¥5,000</td>
-                                        <td>2023-05-10</td>
-                                        <td><span class="badge badge-warning">待支付</span></td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                                <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <!-- 数据将通过JavaScript动态生成 -->
                                 </tbody>
                             </table>
                         </div>
+                        <ul class="pagination" id="financePagination">
+                            <!-- 分页将通过JavaScript动态生成 -->
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -1033,14 +1053,14 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label class="form-label">联系电话</label>
-                                        <input type="text" class="form-control" value="0359-1234567">
+                                        <input type="text" class="form-control" value="0359-88888888">
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="form-group">
                                 <label class="form-label">学院地址</label>
-                                <input type="text" class="form-control" value="山西省运城市盐湖区网球路88号">
+                                <input type="text" class="form-control" value="运城市盐湖区大禹街与园西路交叉口东320米">
                             </div>
                             
                             <div class="row">
@@ -1082,7 +1102,76 @@
 
     <script>
         $(document).ready(function() {
-            // 模块切换功能
+            // 1. Cookie验证功能
+            function checkLoginStatus() {
+                // 检查是否存在登录cookie
+                if (!document.cookie.includes('kgtennis_admin=true')) {
+                    // 如果不存在，跳转到登录页面
+                    window.location.href = 'https://wangxiansen8049.github.io/kgtennis/login';
+                }
+            }
+            
+            // 页面加载时检查登录状态
+            checkLoginStatus();
+            
+            // 2. 退出功能
+            $('#logoutBtn').on('click', function(e) {
+                e.preventDefault();
+                
+                // 清除cookie
+                document.cookie = 'kgtennis_admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                
+                // 跳转到登录页面
+                window.location.href = 'https://wangxiansen8049.github.io/kgtennis/login';
+            });
+            
+            // 用户头像点击显示下拉菜单
+            $('#userAvatar').on('click', function() {
+                $('#userDropdown').toggleClass('show');
+            });
+            
+            // 点击页面其他地方隐藏下拉菜单
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.user-info').length) {
+                    $('#userDropdown').removeClass('show');
+                }
+            });
+            
+            // 3. 侧边栏隐藏显示功能
+            $('.toggle-sidebar').on('click', function() {
+                $('.sidebar').toggleClass('collapsed');
+                $('.main-content').toggleClass('expanded');
+                
+                // 更新按钮图标方向
+                const $icon = $(this).find('i');
+                if ($('.sidebar').hasClass('collapsed')) {
+                    $icon.removeClass('fa-chevron-left').addClass('fa-chevron-right');
+                } else {
+                    $icon.removeClass('fa-chevron-right').addClass('fa-chevron-left');
+                }
+            });
+            
+            // 手机端侧边栏切换
+            $('.mobile-sidebar-toggle').on('click', function() {
+                $('.sidebar').addClass('mobile-open');
+                $('#sidebarOverlay').addClass('active');
+            });
+            
+            // 手机端点击遮罩层关闭侧边栏
+            $('#sidebarOverlay').on('click', function() {
+                $('.sidebar').removeClass('mobile-open');
+                $(this).removeClass('active');
+            });
+            
+            // 点击菜单项后，在手机端关闭侧边栏
+            $('.menu-item').on('click', function() {
+                if ($(window).width() <= 768) {
+                    $('.sidebar').removeClass('mobile-open');
+                    $('#sidebarOverlay').removeClass('active');
+                }
+            });
+            
+            // 4. 模块切换功能
             $('.menu-item').on('click', function(e) {
                 e.preventDefault();
                 
@@ -1102,7 +1191,7 @@
                 $('#' + targetModule).addClass('active');
             });
             
-            // 模拟数据加载效果
+            // 5. 模拟数据加载效果
             $('.action-btn.edit').on('click', function() {
                 alert('编辑功能开发中...');
             });
@@ -1133,6 +1222,232 @@
                 };
                 return moduleNames[moduleId] || '未知模块';
             }
+            
+            // 6. 表格数据填充和分页功能
+            // 生成随机数量的模拟数据 (10-15条)
+            function generateMockData(type) {
+                const dataCount = Math.floor(Math.random() * 6) + 10; // 10-15条
+                const data = [];
+                
+                for (let i = 1; i <= dataCount; i++) {
+                    if (type === 'students') {
+                        data.push({
+                            id: `STU20230${i < 10 ? '0' + i : i}001`,
+                            name: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七'][i-1],
+                            gender: i % 2 === 0 ? '女' : '男',
+                            age: 15 + (i % 20),
+                            phone: `138****${1000 + i}`,
+                            course: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班'][i % 6],
+                            joinDate: `2023-0${Math.ceil(i/3)}-${10 + (i % 20)}`,
+                            status: i % 10 === 0 ? '暂停' : '在读'
+                        });
+                    } else if (type === 'courses') {
+                        data.push({
+                            id: `CRS20230${i < 10 ? '0' + i : i}001`,
+                            name: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班', '比赛训练班', '儿童启蒙班', '网球体能课', '双打战术课'][i % 10],
+                            type: i % 3 === 0 ? '私教课' : '团体课',
+                            coach: ['张教练', '李教练', '王教练', '赵教练', '刘教练', '陈教练', '杨教练'][i % 7],
+                            time: ['周一、三、五 16:00-17:30', '周二、四、六 19:00-20:30', '按预约时间', '周六、日 10:00-11:30', '周一至周五 18:00-19:30', '周三、五 15:00-16:30'][i % 6],
+                            studentCount: `${5 + (i % 10)}/${10 + (i % 5)}`,
+                            status: i % 10 === 0 ? '暂停招生' : '进行中'
+                        });
+                    } else if (type === 'coaches') {
+                        data.push({
+                            id: `TCH20220${i < 10 ? '0' + i : i}001`,
+                            name: ['张教练', '李教练', '王教练', '赵教练', '刘教练', '陈教练', '杨教练', '黄教练', '周教练', '吴教练', '徐教练', '孙教练', '马教练', '朱教练'][i-1],
+                            gender: i % 2 === 0 ? '女' : '男',
+                            phone: `138****${2000 + i}`,
+                            courses: ['青少年基础班、成人入门班', '成人提高班、青少年进阶班', '一对一私教、高级技巧班', '儿童启蒙班、比赛训练班', '所有课程', '体能训练、双打战术'][i % 6],
+                            joinDate: `2022-0${Math.ceil(i/2)}-${10 + (i % 20)}`,
+                            status: i % 10 === 0 ? '休假' : '在职'
+                        });
+                    } else if (type === 'finance') {
+                        data.push({
+                            id: `TRX20230${i < 10 ? '0' + i : i}001`,
+                            studentName: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七'][i-1],
+                            courseName: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班'][i % 6],
+                            type: '学费收入',
+                            amount: `¥${(2000 + (i * 300)).toLocaleString()}`,
+                            date: `2023-0${Math.ceil(i/3)}-${10 + (i % 20)}`,
+                            status: i % 10 === 0 ? '待支付' : '已支付'
+                        });
+                    } else if (type === 'dashboard') {
+                        data.push({
+                            id: `STU20230${i < 10 ? '0' + i : i}001`,
+                            name: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七'][i-1],
+                            phone: `138****${1000 + i}`,
+                            course: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班'][i % 6],
+                            joinDate: `2023-0${Math.ceil(i/3)}-${10 + (i % 20)}`,
+                            status: i % 10 === 0 ? '待缴费' : '在读'
+                        });
+                    }
+                }
+                
+                return data;
+            }
+            
+            // 初始化表格数据
+            const tableData = {
+                students: generateMockData('students'),
+                courses: generateMockData('courses'),
+                coaches: generateMockData('coaches'),
+                finance: generateMockData('finance'),
+                dashboard: generateMockData('dashboard')
+            };
+            
+            // 渲染表格数据
+            function renderTable(tableId, data, page = 1, pageSize = 5) {
+                const $table = $(`#${tableId} tbody`);
+                const $pagination = $(`#${tableId.replace('Table', 'Pagination')}`);
+                
+                // 清空表格
+                $table.empty();
+                
+                // 计算分页
+                const totalPages = Math.ceil(data.length / pageSize);
+                const startIndex = (page - 1) * pageSize;
+                const endIndex = Math.min(startIndex + pageSize, data.length);
+                const pageData = data.slice(startIndex, endIndex);
+                
+                // 填充表格数据
+                pageData.forEach(item => {
+                    let row = '<tr>';
+                    
+                    if (tableId === 'studentsTable') {
+                        row += `
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.gender}</td>
+                            <td>${item.age}</td>
+                            <td>${item.phone}</td>
+                            <td>${item.course}</td>
+                            <td>${item.joinDate}</td>
+                            <td><span class="badge ${item.status === '在读' ? 'badge-success' : 'badge-warning'}">${item.status}</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        `;
+                    } else if (tableId === 'coursesTable') {
+                        row += `
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.type}</td>
+                            <td>${item.coach}</td>
+                            <td>${item.time}</td>
+                            <td>${item.studentCount}</td>
+                            <td><span class="badge ${item.status === '进行中' ? 'badge-success' : 'badge-warning'}">${item.status}</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        `;
+                    } else if (tableId === 'coachesTable') {
+                        row += `
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.gender}</td>
+                            <td>${item.phone}</td>
+                            <td>${item.courses}</td>
+                            <td>${item.joinDate}</td>
+                            <td><span class="badge ${item.status === '在职' ? 'badge-success' : 'badge-warning'}">${item.status}</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        `;
+                    } else if (tableId === 'financeTable') {
+                        row += `
+                            <td>${item.id}</td>
+                            <td>${item.studentName}</td>
+                            <td>${item.courseName}</td>
+                            <td>${item.type}</td>
+                            <td>${item.amount}</td>
+                            <td>${item.date}</td>
+                            <td><span class="badge ${item.status === '已支付' ? 'badge-success' : 'badge-warning'}">${item.status}</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        `;
+                    } else if (tableId === 'dashboardTable') {
+                        row += `
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.phone}</td>
+                            <td>${item.course}</td>
+                            <td>${item.joinDate}</td>
+                            <td><span class="badge ${item.status === '在读' ? 'badge-success' : 'badge-warning'}">${item.status}</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        `;
+                    }
+                    
+                    row += '</tr>';
+                    $table.append(row);
+                });
+                
+                // 渲染分页
+                renderPagination($pagination, page, totalPages, tableId);
+                
+                // 重新绑定事件
+                $table.find('.action-btn.edit').on('click', function() {
+                    alert('编辑功能开发中...');
+                });
+                
+                $table.find('.action-btn.delete').on('click', function() {
+                    if(confirm('确定要删除这条记录吗？')) {
+                        $(this).closest('tr').fadeOut(300, function() {
+                            $(this).remove();
+                        });
+                    }
+                });
+            }
+            
+            // 渲染分页控件
+            function renderPagination($pagination, currentPage, totalPages, tableId) {
+                $pagination.empty();
+                
+                // 上一页按钮
+                const prevDisabled = currentPage === 1 ? 'disabled' : '';
+                $pagination.append(`<li><a href="#" class="${prevDisabled}" data-page="${currentPage - 1}">上一页</a></li>`);
+                
+                // 页码按钮
+                for (let i = 1; i <= totalPages; i++) {
+                    const active = i === currentPage ? 'active' : '';
+                    $pagination.append(`<li><a href="#" class="${active}" data-page="${i}">${i}</a></li>`);
+                }
+                
+                // 下一页按钮
+                const nextDisabled = currentPage === totalPages ? 'disabled' : '';
+                $pagination.append(`<li><a href="#" class="${nextDisabled}" data-page="${currentPage + 1}">下一页</a></li>`);
+                
+                // 绑定分页点击事件
+                $pagination.find('a:not(.disabled)').on('click', function(e) {
+                    e.preventDefault();
+                    const page = parseInt($(this).data('page'));
+                    const dataType = tableId.replace('Table', '');
+                    renderTable(tableId, tableData[dataType], page);
+                });
+            }
+            
+            // 初始化所有表格
+            Object.keys(tableData).forEach(key => {
+                const tableId = `${key}Table`;
+                renderTable(tableId, tableData[key], 1);
+            });
         });
     </script>
 </body>
