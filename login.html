@@ -10,7 +10,7 @@
     
     <!-- Open Graph 标签 (用于社交媒体分享) -->
     <meta property="og:title" content="运城袋鼠网球学院 - 后台管理系统 学员管理，课程管理，教练管理，财务管理，系统设置">
-    <meta property="og:description" content="约球，交友，穿搭，进阶 - 运城专业网球培训机构">
+    <meta property="og:description" content="后台管理系统 学员管理，课程管理，教练管理，财务管理，系统设置 - 运城专业网球培训机构">
     <meta property="og:image" content="https://i.postimg.cc/TPbygyQ2/dai-shu-wang-qiulogo.png">
     <meta property="og:url" content="https://wangxiansen8049.github.io/kgtennis/login">
     <meta property="og:type" content="website">
@@ -76,6 +76,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 30px;
+            cursor: pointer;
         }
         
         .logo-icon {
@@ -273,6 +274,9 @@
             .welcome-text {
                 font-size: 28px;
             }
+            .tennis-ball:after{
+                right: 0%;
+            }
         }
         
         @media (max-width: 480px) {
@@ -299,6 +303,9 @@
             
             .forgot-password {
                 margin-top: 10px;
+            }
+            .tennis-ball:after{
+                right: 0%;
             }
         }
         
@@ -354,7 +361,7 @@
 <body>
     <div class="login-container">
         <div class="login-left">
-            <div class="logo">
+            <div class="logo" id="pageLogo">
                 <div class="logo-icon">
                     <img src="https://i.postimg.cc/TPbygyQ2/dai-shu-wang-qiulogo.png" alt="">
                 </div>
@@ -484,6 +491,10 @@
                 expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8小时
                 document.cookie = `kgtennis_admin=true; expires=${expirationDate.toUTCString()}; path=/`;
             }
+            // 点击logo刷新当前页面
+            $('#pageLogo').on('click', function() {
+                location.reload();
+            });
         });
     </script>
 </body>
