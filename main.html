@@ -6,13 +6,13 @@
     <title>运城袋鼠网球学院 - 后台管理系统</title>
     <meta name="description" content="运城袋鼠网球学院提供专业网球培训课程，包括基础入门、技术进阶和专项训练。我们的教练团队经验丰富，提供场地预约服务，位于运城市盐湖区大禹街与园西路交叉口东320米。">
     <meta name="keywords" content="运城网球培训,袋鼠网球学院,网球课程,网球教练,网球场地预约,运城体育培训">
-    <link rel="canonical" href="https://wangxiansen8049.github.io/kgtennis/">
+    <link rel="canonical" href="https://wangxiansen8049.github.io/kgtennis/login">
     
     <!-- Open Graph 标签 (用于社交媒体分享) -->
-    <meta property="og:title" content="运城袋鼠网球学院 - 专业网球培训">
-    <meta property="og:description" content="约球，交友，穿搭，进阶 - 运城专业网球培训机构">
+    <meta property="og:title" content="运城袋鼠网球学院 - 后台管理系统 学员管理，课程管理，教练管理，财务管理，系统设置">
+    <meta property="og:description" content="运城袋鼠网球学院 - 后台管理系统 学员管理，课程管理，教练管理，财务管理，系统设置">
     <meta property="og:image" content="https://i.postimg.cc/TPbygyQ2/dai-shu-wang-qiulogo.png">
-    <meta property="og:url" content="https://wangxiansen8049.github.io/kgtennis/">
+    <meta property="og:url" content="https://wangxiansen8049.github.io/kgtennis/login">
     <meta property="og:type" content="website">
     
     <!-- 网站收藏图标 (Favicon) -->
@@ -106,6 +106,7 @@
         .sidebar.collapsed .logo-text {
             opacity: 0;
             width: 0;
+            height: 0;
             overflow: hidden;
         }
         
@@ -312,7 +313,7 @@
             padding: 20px;
         }
         
-        /* 仪表盘样式 */
+        /* 首页样式 */
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -735,7 +736,7 @@
         <div class="sidebar-menu">
             <a href="#" class="menu-item active" data-module="dashboard">
                 <i class="fas fa-tachometer-alt"></i>
-                <span class="menu-text">仪表盘</span>
+                <span class="menu-text">首页</span>
             </a>
             <a href="#" class="menu-item" data-module="students">
                 <i class="fas fa-users"></i>
@@ -766,7 +767,7 @@
             <button class="mobile-sidebar-toggle">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1 class="page-title" id="pageTitle">仪表盘</h1>
+            <h1 class="page-title" id="pageTitle">首页</h1>
             <div class="header-controls">
                 <button class="toggle-sidebar">
                     <i class="fas fa-chevron-left"></i>
@@ -783,7 +784,7 @@
         </div>
         
         <div class="content-area">
-            <!-- 仪表盘模块 -->
+            <!-- 首页模块 -->
             <div class="module active" id="dashboard">
                 <div class="stats-container">
                     <div class="stat-card">
@@ -1213,7 +1214,7 @@
             // 获取模块名称
             function getModuleName(moduleId) {
                 const moduleNames = {
-                    'dashboard': '仪表盘',
+                    'dashboard': '首页',
                     'students': '学员管理',
                     'courses': '课程管理',
                     'coaches': '教练管理',
@@ -1232,18 +1233,18 @@
                 for (let i = 1; i <= dataCount; i++) {
                     if (type === 'students') {
                         data.push({
-                            id: `STU20230${i < 10 ? '0' + i : i}001`,
+                            id: `STU20250${i < 10 ? '0' + i : i}001`,
                             name: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七'][i-1],
                             gender: i % 2 === 0 ? '女' : '男',
                             age: 15 + (i % 20),
                             phone: `138****${1000 + i}`,
                             course: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班'][i % 6],
-                            joinDate: `2023-0${Math.ceil(i/3)}-${10 + (i % 20)}`,
+                            joinDate: `2025-0${Math.ceil(i/3)}-${10 + (i % 20)}`,
                             status: i % 10 === 0 ? '暂停' : '在读'
                         });
                     } else if (type === 'courses') {
                         data.push({
-                            id: `CRS20230${i < 10 ? '0' + i : i}001`,
+                            id: `CRS20250${i < 10 ? '0' + i : i}001`,
                             name: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班', '比赛训练班', '儿童启蒙班', '网球体能课', '双打战术课'][i % 10],
                             type: i % 3 === 0 ? '私教课' : '团体课',
                             coach: ['张教练', '李教练', '王教练', '赵教练', '刘教练', '陈教练', '杨教练'][i % 7],
@@ -1253,31 +1254,31 @@
                         });
                     } else if (type === 'coaches') {
                         data.push({
-                            id: `TCH20220${i < 10 ? '0' + i : i}001`,
+                            id: `TCH20250${i < 10 ? '0' + i : i}001`,
                             name: ['张教练', '李教练', '王教练', '赵教练', '刘教练', '陈教练', '杨教练', '黄教练', '周教练', '吴教练', '徐教练', '孙教练', '马教练', '朱教练'][i-1],
                             gender: i % 2 === 0 ? '女' : '男',
                             phone: `138****${2000 + i}`,
                             courses: ['青少年基础班、成人入门班', '成人提高班、青少年进阶班', '一对一私教、高级技巧班', '儿童启蒙班、比赛训练班', '所有课程', '体能训练、双打战术'][i % 6],
-                            joinDate: `2022-0${Math.ceil(i/2)}-${10 + (i % 20)}`,
+                            joinDate: `2025-0${Math.ceil(i/2)}-${10 + (i % 20)}`,
                             status: i % 10 === 0 ? '休假' : '在职'
                         });
                     } else if (type === 'finance') {
                         data.push({
-                            id: `TRX20230${i < 10 ? '0' + i : i}001`,
+                            id: `TRX20250${i < 10 ? '0' + i : i}001`,
                             studentName: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七'][i-1],
                             courseName: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班'][i % 6],
                             type: '学费收入',
                             amount: `¥${(2000 + (i * 300)).toLocaleString()}`,
-                            date: `2023-0${Math.ceil(i/3)}-${10 + (i % 20)}`,
+                            date: `2025-0${Math.ceil(i/3)}-${10 + (i % 20)}`,
                             status: i % 10 === 0 ? '待支付' : '已支付'
                         });
                     } else if (type === 'dashboard') {
                         data.push({
-                            id: `STU20230${i < 10 ? '0' + i : i}001`,
+                            id: `STU20250${i < 10 ? '0' + i : i}001`,
                             name: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七'][i-1],
                             phone: `138****${1000 + i}`,
                             course: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班'][i % 6],
-                            joinDate: `2023-0${Math.ceil(i/3)}-${10 + (i % 20)}`,
+                            joinDate: `2025-0${Math.ceil(i/3)}-${10 + (i % 20)}`,
                             status: i % 10 === 0 ? '待缴费' : '在读'
                         });
                     }
