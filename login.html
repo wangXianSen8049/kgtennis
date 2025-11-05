@@ -448,9 +448,10 @@
                         // 在实际应用中，这里应该是AJAX请求
                         if (username === 'admin' && password === 'admin123') {
                             // 登录成功
-                            alert('登录成功！即将跳转到管理后台...');
+                            // alert('登录成功！即将跳转到管理后台...');
                             // 在实际应用中，这里应该是页面跳转
                             // 登录成功，跳转到主页面
+                            setLoginCookie();
                             window.location.href = "https://wangxiansen8049.github.io/kgtennis/main";
                         } else {
                             // 登录失败
@@ -476,6 +477,14 @@
                 e.preventDefault();
                 alert('请联系系统管理员重置密码！\n电话：0359-1234567\n邮箱：admin@kangarootennis.com');
             });
+
+            // 登录验证成功后设置cookie
+            function setLoginCookie() {
+                const expirationDate = new Date();
+                expirationDate.setTime(expirationDate.getTime() + (8 * 60 * 60 * 1000)); // 8小时
+                debugger;
+                document.cookie = `kgtennis_admin=true; expires=${expirationDate.toUTCString()}; path=/`;
+            }
         });
     </script>
 </body>
