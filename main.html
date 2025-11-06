@@ -303,6 +303,11 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             margin-bottom: 25px;
             overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .card-header {
@@ -391,6 +396,13 @@
             border-collapse: collapse;
         }
         
+        .data-table th {
+            position: sticky;
+            top: 0;
+            background: var(--secondary-color);
+            z-index: 10;
+        }
+        
         .data-table th, .data-table td {
             padding: 12px 15px;
             text-align: left;
@@ -398,7 +410,6 @@
         }
         
         .data-table th {
-            background-color: var(--secondary-color);
             font-weight: 600;
         }
         
@@ -455,6 +466,41 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
         }
         
         .btn i {
@@ -683,6 +729,39 @@
             .toggle-sidebar {
                 display: none;
             }
+            
+            .data-table {
+                font-size: 14px;
+            }
+            
+            .data-table th, 
+            .data-table td {
+                padding: 8px 10px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .content-area {
+                padding: 15px;
+            }
+            
+            .card-header {
+                padding: 15px;
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .card-body {
+                padding: 15px;
+            }
         }
         
         /* 动画效果 */
@@ -742,9 +821,126 @@
             justify-content: center;
             color: var(--text-light);
         }
+        
+        /* 加载状态指示器 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 通知样式 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 16px;
+            min-width: 300px;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 10000;
+            border-left: 4px solid var(--info-color);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-success {
+            border-left-color: var(--primary-color);
+        }
+
+        .notification-error {
+            border-left-color: var(--danger-color);
+        }
+
+        .notification-warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: var(--text-light);
+        }
+
+        /* 搜索框样式 */
+        .search-box {
+            position: relative;
+            width: 200px;
+        }
+
+        .search-input {
+            padding-left: 35px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        /* 图表操作按钮 */
+        .chart-actions {
+            margin-left: auto;
+        }
+
+        /* 统计选择器 */
+        .stat-period {
+            width: auto !important;
+            min-width: 120px;
+        }
     </style>
 </head>
 <body>
+    <!-- 加载遮罩层 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
     <!-- 移动端遮罩层 -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     
@@ -860,6 +1056,11 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">近期收入趋势</div>
+                                <div class="chart-actions">
+                                    <button class="btn btn-outline btn-sm export-chart" data-chart="income">
+                                        <i class="fas fa-download"></i> 导出数据
+                                    </button>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="chart-container">
@@ -872,6 +1073,11 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">课程类型分布</div>
+                                <div class="chart-actions">
+                                    <button class="btn btn-outline btn-sm export-chart" data-chart="course">
+                                        <i class="fas fa-download"></i> 导出数据
+                                    </button>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="chart-container">
@@ -884,10 +1090,27 @@
                 
                 <div class="card">
                     <div class="card-header">
+                        <div class="card-title">月度统计对比</div>
+                        <select class="form-control stat-period" style="width: auto;">
+                            <option value="3">近3个月</option>
+                            <option value="6">近6个月</option>
+                            <option value="12">近12个月</option>
+                        </select>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="monthlyComparisonChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
                         <div class="card-title">最近报名学员</div>
-                        <button class="btn btn-outline">
-                            <i class="fas fa-plus"></i> 添加学员
-                        </button>
+                        <div class="search-box">
+                            <input type="text" class="form-control search-input" placeholder="搜索...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -920,9 +1143,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">学员列表</div>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus"></i> 添加学员
-                        </button>
+                        <div class="search-box">
+                            <input type="text" class="form-control search-input" placeholder="搜索...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -957,9 +1181,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">课程列表</div>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus"></i> 添加课程
-                        </button>
+                        <div class="search-box">
+                            <input type="text" class="form-control search-input" placeholder="搜索...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -993,9 +1218,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">教练列表</div>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus"></i> 添加教练
-                        </button>
+                        <div class="search-box">
+                            <input type="text" class="form-control search-input" placeholder="搜索...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -1029,9 +1255,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">财务记录</div>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-plus"></i> 添加记录
-                        </button>
+                        <div class="search-box">
+                            <input type="text" class="form-control search-input" placeholder="搜索...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -1261,7 +1488,7 @@
             function initCharts() {
                 // 收入趋势图表
                 const incomeCtx = document.getElementById('incomeChart').getContext('2d');
-                const incomeChart = new Chart(incomeCtx, {
+                window.incomeChart = new Chart(incomeCtx, {
                     type: 'line',
                     data: {
                         labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
@@ -1306,7 +1533,7 @@
                 
                 // 课程类型分布图表
                 const courseCtx = document.getElementById('courseDistributionChart').getContext('2d');
-                const courseChart = new Chart(courseCtx, {
+                window.courseChart = new Chart(courseCtx, {
                     type: 'doughnut',
                     data: {
                         labels: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班'],
@@ -1348,22 +1575,232 @@
                         }
                     }
                 });
+                
+                // 月度对比图表
+                const comparisonCtx = document.getElementById('monthlyComparisonChart').getContext('2d');
+                window.comparisonChart = new Chart(comparisonCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['5月', '6月', '7月'],
+                        datasets: [
+                            {
+                                label: '收入 (元)',
+                                data: [75400, 78200, 86540],
+                                backgroundColor: '#2d8c3c',
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: '新学员',
+                                data: [42, 38, 45],
+                                backgroundColor: '#3498db',
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: '收入 (元)'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return '¥' + value.toLocaleString();
+                                    }
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: '学员数量'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            }
+                        }
+                    }
+                });
             }
             
             // 页面加载完成后初始化图表
             initCharts();
             
-            // 7. 表格数据填充和分页功能
-            // 生成随机数量的模拟数据 (10-15条)
+            // 7. 数据可视化增强
+            function enhanceCharts() {
+                // 添加图表响应式调整
+                window.addEventListener('resize', function() {
+                    if (window.incomeChart) {
+                        window.incomeChart.resize();
+                        window.courseChart.resize();
+                        window.comparisonChart.resize();
+                    }
+                });
+                
+                // 图表导出功能
+                $('.export-chart').on('click', function() {
+                    const chartType = $(this).data('chart');
+                    let data, filename;
+                    
+                    if (chartType === 'income') {
+                        data = window.incomeChart.data;
+                        filename = '收入趋势数据.csv';
+                        exportChartData(data, filename);
+                    } else {
+                        data = window.courseChart.data;
+                        filename = '课程分布数据.csv';
+                        exportChartData(data, filename);
+                    }
+                });
+                
+                function exportChartData(chartData, filename) {
+                    let csvContent = '';
+                    
+                    if (chartData.labels) {
+                        // 折线图数据导出
+                        csvContent = '月份,收入(元)\n';
+                        chartData.labels.forEach((label, index) => {
+                            csvContent += `${label},${chartData.datasets[0].data[index]}\n`;
+                        });
+                    } else {
+                        // 饼图数据导出
+                        csvContent = '课程类型,学员数量,占比\n';
+                        const total = chartData.datasets[0].data.reduce((a, b) => a + b, 0);
+                        chartData.labels.forEach((label, index) => {
+                            const value = chartData.datasets[0].data[index];
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            csvContent += `${label},${value},${percentage}%\n`;
+                        });
+                    }
+                    
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename;
+                    link.click();
+                }
+            }
+            
+            // 8. 搜索和过滤功能
+            function initSearchAndFilter() {
+                // 搜索功能
+                $('.search-input').on('input', function() {
+                    const searchTerm = $(this).val().toLowerCase();
+                    const $table = $(this).closest('.card').find('.data-table');
+                    const $rows = $table.find('tbody tr');
+                    
+                    $rows.each(function() {
+                        const rowText = $(this).text().toLowerCase();
+                        $(this).toggle(rowText.includes(searchTerm));
+                    });
+                });
+            }
+            
+            // 9. 性能优化
+            function initLazyLoading() {
+                const images = document.querySelectorAll('img[data-src]');
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                });
+                
+                images.forEach(img => imageObserver.observe(img));
+            }
+            
+            // 10. 错误处理和通知系统
+            function initErrorHandling() {
+                // 全局错误处理
+                window.addEventListener('error', function(e) {
+                    console.error('发生错误:', e.error);
+                    showNotification('系统发生错误，请刷新页面重试', 'error');
+                });
+                
+                // 网络状态检查
+                window.addEventListener('online', function() {
+                    showNotification('网络连接已恢复', 'success');
+                });
+                
+                window.addEventListener('offline', function() {
+                    showNotification('网络连接已断开', 'warning');
+                });
+            }
+            
+            function showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${getNotificationIcon(type)}"></i>
+                        <span>${message}</span>
+                    </div>
+                    <button class="notification-close">&times;</button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 100);
+                
+                // 自动消失
+                setTimeout(() => {
+                    hideNotification(notification);
+                }, 5000);
+                
+                // 点击关闭
+                notification.querySelector('.notification-close').addEventListener('click', () => {
+                    hideNotification(notification);
+                });
+            }
+            
+            function hideNotification(notification) {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }
+            
+            function getNotificationIcon(type) {
+                const icons = {
+                    'success': 'check-circle',
+                    'error': 'exclamation-circle',
+                    'warning': 'exclamation-triangle',
+                    'info': 'info-circle'
+                };
+                return icons[type] || 'info-circle';
+            }
+            
+            // 11. 表格数据填充和分页功能
+            // 生成随机数量的模拟数据
             function generateMockData(type) {
-                const dataCount = Math.floor(Math.random() * 6) + 10; // 10-15条
+                // 首页保持10-15条，其他模块18-26条
+                const dataCount = type === 'dashboard' ? 
+                    Math.floor(Math.random() * 6) + 10 : // 10-15条
+                    Math.floor(Math.random() * 9) + 18;  // 18-26条
                 const data = [];
                 
                 for (let i = 1; i <= dataCount; i++) {
                     if (type === 'students') {
                         data.push({
                             id: `STU20250${i < 10 ? '0' + i : i}001`,
-                            name: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七'][i-1],
+                            name: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七', '杨八', '赵九', '钱十', '孙一', '周二', '吴二', '郑三', '王四', '李五', '赵六', '钱七'][i-1],
                             gender: i % 2 === 0 ? '女' : '男',
                             age: 15 + (i % 20),
                             phone: `138****${1000 + i}`,
@@ -1384,7 +1821,7 @@
                     } else if (type === 'coaches') {
                         data.push({
                             id: `TCH20250${i < 10 ? '0' + i : i}001`,
-                            name: ['张教练', '李教练', '王教练', '赵教练', '刘教练', '陈教练', '杨教练', '黄教练', '周教练', '吴教练', '徐教练', '孙教练', '马教练', '朱教练'][i-1],
+                            name: ['张教练', '李教练', '王教练', '赵教练', '刘教练', '陈教练', '杨教练', '黄教练', '周教练', '吴教练', '徐教练', '孙教练', '马教练', '朱教练', '林教练', '郭教练', '何教练', '高教练', '罗教练', '梁教练', '谢教练', '宋教练', '唐教练', '许教练', '韩教练', '邓教练'][i-1],
                             gender: i % 2 === 0 ? '女' : '男',
                             phone: `138****${2000 + i}`,
                             courses: ['青少年基础班、成人入门班', '成人提高班、青少年进阶班', '一对一私教、高级技巧班', '儿童启蒙班、比赛训练班', '所有课程', '体能训练、双打战术'][i % 6],
@@ -1394,7 +1831,7 @@
                     } else if (type === 'finance') {
                         data.push({
                             id: `TRX20250${i < 10 ? '0' + i : i}001`,
-                            studentName: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七'][i-1],
+                            studentName: ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑一', '王二', '陈三', '林四', '黄五', '刘六', '朱七', '杨八', '赵九', '钱十', '孙一', '周二', '吴二', '郑三', '王四', '李五', '赵六', '钱七'][i-1],
                             courseName: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班'][i % 6],
                             type: '学费收入',
                             amount: `¥${(2000 + (i * 300)).toLocaleString()}`,
@@ -1426,12 +1863,15 @@
             };
             
             // 渲染表格数据
-            function renderTable(tableId, data, page = 1, pageSize = 5) {
+            function renderTable(tableId, data, page = 1) {
                 const $table = $(`#${tableId} tbody`);
                 const $pagination = $(`#${tableId.replace('Table', 'Pagination')}`);
                 
                 // 清空表格
                 $table.empty();
+                
+                // 设置每页显示数量
+                const pageSize = tableId === 'dashboardTable' ? 5 : 10;
                 
                 // 计算分页
                 const totalPages = Math.ceil(data.length / pageSize);
@@ -1578,6 +2018,17 @@
                 const tableId = `${key}Table`;
                 renderTable(tableId, tableData[key], 1);
             });
+            
+            // 初始化新功能
+            initLazyLoading();
+            initSearchAndFilter();
+            initErrorHandling();
+            enhanceCharts();
+            
+            // 显示加载成功的通知
+            setTimeout(() => {
+                showNotification('系统加载完成，欢迎使用！', 'success');
+            }, 1000);
         });
     </script>
 </body>
