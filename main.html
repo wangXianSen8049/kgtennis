@@ -21,6 +21,8 @@
     <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎾</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 引入Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary-color: #2d8c3c;
@@ -727,6 +729,7 @@
         .chart-container {
             height: 300px;
             margin-top: 20px;
+            position: relative;
         }
         
         .chart-placeholder {
@@ -860,10 +863,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="chart-container">
-                                    <div class="chart-placeholder">
-                                        <i class="fas fa-chart-line" style="font-size: 48px; margin-right: 15px;"></i>
-                                        <span>收入趋势图表区域</span>
-                                    </div>
+                                    <canvas id="incomeChart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -875,10 +875,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="chart-container">
-                                    <div class="chart-placeholder">
-                                        <i class="fas fa-chart-pie" style="font-size: 48px; margin-right: 15px;"></i>
-                                        <span>课程分布图表区域</span>
-                                    </div>
+                                    <canvas id="courseDistributionChart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -1260,7 +1257,103 @@
                 return moduleNames[moduleId] || '未知模块';
             }
             
-            // 6. 表格数据填充和分页功能
+            // 6. 绘制图表
+            function initCharts() {
+                // 收入趋势图表
+                const incomeCtx = document.getElementById('incomeChart').getContext('2d');
+                const incomeChart = new Chart(incomeCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
+                        datasets: [{
+                            label: '月收入 (元)',
+                            data: [62000, 58000, 75000, 82000, 78000, 86540, 92000],
+                            borderColor: '#2d8c3c',
+                            backgroundColor: 'rgba(45, 140, 60, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return '¥' + value.toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return '收入: ¥' + context.parsed.y.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // 课程类型分布图表
+                const courseCtx = document.getElementById('courseDistributionChart').getContext('2d');
+                const courseChart = new Chart(courseCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['青少年基础班', '成人提高班', '一对一私教', '青少年进阶班', '成人入门班', '高级技巧班'],
+                        datasets: [{
+                            data: [30, 20, 15, 18, 10, 7],
+                            backgroundColor: [
+                                '#2d8c3c',
+                                '#3498db',
+                                '#f39c12',
+                                '#9b59b6',
+                                '#e74c3c',
+                                '#1abc9c'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    boxWidth: 12,
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = Math.round((value / total) * 100);
+                                        return `${label}: ${value}人 (${percentage}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // 页面加载完成后初始化图表
+            initCharts();
+            
+            // 7. 表格数据填充和分页功能
             // 生成随机数量的模拟数据 (10-15条)
             function generateMockData(type) {
                 const dataCount = Math.floor(Math.random() * 6) + 10; // 10-15条
