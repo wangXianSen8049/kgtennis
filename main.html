@@ -1132,6 +1132,10 @@
         .dropdown-backdrop.active {
             display: block;
         }
+
+        .leaflet-top, .leaflet-bottom{
+            z-index: 1 !important;
+        }
     </style>
 </head>
 <body>
@@ -1631,7 +1635,7 @@
                 // 检查是否存在登录cookie
                 if (!document.cookie.includes('kgtennis_admin=true')) {
                     // 如果不存在，跳转到登录页面
-                    window.location.href = 'https://wangxiansen8049.github.io/kgtennis/login';
+                    // window.location.href = 'https://wangxiansen8049.github.io/kgtennis/login';
                 }
             }
             
@@ -2466,7 +2470,7 @@
                 // 添加标记点
                 const mainLocation = L.marker([35.0268, 110.9979], {icon: mainIcon}).addTo(window.courtMap);
                 mainLocation.bindPopup(`
-                    <div style="min-width: 200px;">
+                    <div style="min-width: 150px;">
                         <h4 style="margin: 0 0 10px 0; color: #2d8c3c;">运城袋鼠网球学院（总部）</h4>
                         <p style="margin: 5px 0;">地址：运城市盐湖区大禹街与园西路交叉口东320米</p>
                         <p style="margin: 5px 0;">网球场数量：<strong>4片</strong></p>
@@ -2484,7 +2488,7 @@
                 locations.forEach(location => {
                     const marker = L.marker(location.coords, {icon: location.icon}).addTo(window.courtMap);
                     marker.bindPopup(`
-                        <div style="min-width: 200px;">
+                        <div style="min-width: 150px;">
                             <h4 style="margin: 0 0 10px 0; color: #3498db;">${location.name}</h4>
                             <p style="margin: 5px 0;">网球场数量：<strong>${location.courts}片</strong></p>
                             <p style="margin: 5px 0;">${location.type}</p>
