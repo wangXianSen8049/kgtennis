@@ -23,6 +23,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- 引入Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 引入Leaflet地图库 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         :root {
             --primary-color: #2d8c3c;
@@ -688,6 +691,41 @@
             margin-right: 15px;
         }
         
+        /* 地图容器样式 */
+        #mapContainer {
+            height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* 球场信息样式 */
+        .court-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .court-stat-item {
+            flex: 1;
+            padding: 15px;
+            background: var(--primary-light);
+            border-radius: 8px;
+            margin: 0 10px;
+        }
+        
+        .court-stat-item h3 {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .court-stat-item p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
         /* 响应式设计 */
         @media (max-width: 992px) {
             .sidebar {
@@ -893,6 +931,19 @@
             .search-box {
                 width: 100%;
                 margin-top: 10px;
+            }
+            
+            /* 移动端地图容器样式 */
+            #mapContainer {
+                height: 400px;
+            }
+            
+            .court-stats {
+                flex-direction: column;
+            }
+            
+            .court-stat-item {
+                margin: 5px 0;
             }
         }
         
@@ -1122,6 +1173,10 @@
                 <i class="fas fa-user-tie"></i>
                 <span class="menu-text">教练管理</span>
             </a>
+            <a href="#" class="menu-item" data-module="courtDistribution">
+                <i class="fas fa-map-marked-alt"></i>
+                <span class="menu-text">球场分布</span>
+            </a>
             <a href="#" class="menu-item" data-module="finance">
                 <i class="fas fa-file-invoice-dollar"></i>
                 <span class="menu-text">财务管理</span>
@@ -1169,6 +1224,7 @@
         <div class="content-area">
             <!-- 首页模块 -->
             <div class="module active" id="dashboard">
+                <!-- 首页内容保持不变 -->
                 <div class="stats-container">
                     <div class="stat-card">
                         <div class="stat-icon primary">
@@ -1407,6 +1463,65 @@
                 </div>
             </div>
             
+            <!-- 球场分布模块 -->
+            <div class="module" id="courtDistribution">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">球场分布</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="court-stats">
+                            <div class="court-stat-item">
+                                <h3>39</h3>
+                                <p>总网球场数量</p>
+                            </div>
+                            <div class="court-stat-item">
+                                <h3>32</h3>
+                                <p>室外场地</p>
+                            </div>
+                            <div class="court-stat-item">
+                                <h3>7</h3>
+                                <p>室内场地</p>
+                            </div>
+                            <div class="court-stat-item">
+                                <h3>12</h3>
+                                <p>比赛级场地</p>
+                            </div>
+                        </div>
+                        <div id="mapContainer"></div>
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">主要球场位置</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul style="list-style-type: none; padding: 0;">
+                                            <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                                                <i class="fas fa-map-marker-alt" style="color: var(--primary-color); margin-right: 10px;"></i>
+                                                运城市盐湖区大禹街与园西路交叉口东320米
+                                            </li>
+                                            <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                                                <i class="fas fa-map-marker-alt" style="color: var(--info-color); margin-right: 10px;"></i>
+                                                运城市盐湖区河东东街体育中心
+                                            </li>
+                                            <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">
+                                                <i class="fas fa-map-marker-alt" style="color: var(--warning-color); margin-right: 10px;"></i>
+                                                运城市盐湖区禹都公园网球场
+                                            </li>
+                                            <li style="padding: 8px 0;">
+                                                <i class="fas fa-map-marker-alt" style="color: var(--danger-color); margin-right: 10px;"></i>
+                                                运城市高新区大学城校区
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- 财务管理模块 -->
             <div class="module" id="finance">
                 <div class="card">
@@ -1615,6 +1730,11 @@
                 // 切换显示模块
                 $('.module').removeClass('active');
                 $('#' + targetModule).addClass('active');
+                
+                // 如果是球场分布模块，初始化地图
+                if (targetModule === 'courtDistribution') {
+                    initCourtMap();
+                }
             });
             
             // 5. 模拟数据加载效果
@@ -1643,6 +1763,7 @@
                     'students': '学员管理',
                     'courses': '课程管理',
                     'coaches': '教练管理',
+                    'courtDistribution': '球场分布',
                     'finance': '财务管理',
                     'settings': '系统设置'
                 };
@@ -2307,6 +2428,85 @@
             
             // 初始化月度对比图
             initMonthlyComparisonChart();
+            
+            // 新增：球场分布地图初始化
+            function initCourtMap() {
+                // 检查地图是否已经初始化
+                if (window.courtMap) {
+                    // 地图已存在，只需调整大小
+                    setTimeout(function() {
+                        window.courtMap.invalidateSize();
+                    }, 300);
+                    return;
+                }
+                
+                // 创建地图实例
+                window.courtMap = L.map('mapContainer').setView([35.0268, 110.9979], 13);
+                
+                // 添加OpenStreetMap图层
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(window.courtMap);
+                
+                // 定义自定义图标
+                const mainIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: '<div style="background-color: #2d8c3c; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>',
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10]
+                });
+                
+                const branchIcon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: '<div style="background-color: #3498db; width: 18px; height: 18px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>',
+                    iconSize: [18, 18],
+                    iconAnchor: [9, 9]
+                });
+                
+                // 添加标记点
+                const mainLocation = L.marker([35.0268, 110.9979], {icon: mainIcon}).addTo(window.courtMap);
+                mainLocation.bindPopup(`
+                    <div style="min-width: 200px;">
+                        <h4 style="margin: 0 0 10px 0; color: #2d8c3c;">运城袋鼠网球学院</h4>
+                        <p style="margin: 5px 0;">地址：运城市盐湖区大禹街与园西路交叉口东320米</p>
+                        <p style="margin: 5px 0;">网球场数量：<strong>4片</strong></p>
+                        <p style="margin: 5px 0;">包含：室外场地4片</p>
+                    </div>
+                `).openPopup();
+                
+                // 添加其他场地标记
+                const locations = [
+                    { coords: [35.0200, 110.9900], name: "体育中心分场", courts: 4, type: "室内场地4片", icon: branchIcon },
+                    { coords: [35.0150, 111.0050], name: "禹都公园分场", courts: 4, type: "室外场地4片", icon: branchIcon },
+                    { coords: [35.0711, 110.9987], name: "大学城分场", courts: 6, type: "室外场地6片", icon: branchIcon }
+                ];
+                
+                locations.forEach(location => {
+                    const marker = L.marker(location.coords, {icon: location.icon}).addTo(window.courtMap);
+                    marker.bindPopup(`
+                        <div style="min-width: 200px;">
+                            <h4 style="margin: 0 0 10px 0; color: #3498db;">${location.name}</h4>
+                            <p style="margin: 5px 0;">网球场数量：<strong>${location.courts}片</strong></p>
+                            <p style="margin: 5px 0;">${location.type}</p>
+                        </div>
+                    `);
+                });
+                
+                // 添加总网球场数量标注
+                L.control.custom = L.Control.extend({
+                    options: {
+                        position: 'bottomleft'
+                    },
+                    
+                    onAdd: function(map) {
+                        const container = L.DomUtil.create('div', 'leaflet-control-attribution');
+                        container.innerHTML = '<div style="background: white; padding: 5px 10px; border-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.2); font-weight: bold; color: #2d8c3c;">总网球场数量: 39片</div>';
+                        return container;
+                    }
+                });
+                
+                new L.control.custom().addTo(window.courtMap);
+            }
         });
     </script>
 </body>
