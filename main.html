@@ -1175,7 +1175,7 @@
             </a>
             <a href="#" class="menu-item" data-module="courtDistribution">
                 <i class="fas fa-map-marked-alt"></i>
-                <span class="menu-text">球场分布</span>
+                <span class="menu-text">球场管理</span>
             </a>
             <a href="#" class="menu-item" data-module="finance">
                 <i class="fas fa-file-invoice-dollar"></i>
@@ -1463,7 +1463,7 @@
                 </div>
             </div>
             
-            <!-- 球场分布模块 -->
+            <!-- 球场管理模块 -->
             <div class="module" id="courtDistribution">
                 <div class="card">
                     <div class="card-header">
@@ -1507,7 +1507,7 @@
                                             </li>
                                             <li style="padding: 8px 0; border-bottom: 1px solid var(--border-color);">
                                                 <i class="fas fa-map-marker-alt" style="color: var(--warning-color); margin-right: 10px;"></i>
-                                                运城市盐湖区禹都公园网球场
+                                                运城市盐湖区禹都公园
                                             </li>
                                             <li style="padding: 8px 0;">
                                                 <i class="fas fa-map-marker-alt" style="color: var(--danger-color); margin-right: 10px;"></i>
@@ -1731,7 +1731,7 @@
                 $('.module').removeClass('active');
                 $('#' + targetModule).addClass('active');
                 
-                // 如果是球场分布模块，初始化地图
+                // 如果是球场管理模块，初始化地图
                 if (targetModule === 'courtDistribution') {
                     initCourtMap();
                 }
@@ -1763,7 +1763,7 @@
                     'students': '学员管理',
                     'courses': '课程管理',
                     'coaches': '教练管理',
-                    'courtDistribution': '球场分布',
+                    'courtDistribution': '球场管理',
                     'finance': '财务管理',
                     'settings': '系统设置'
                 };
@@ -2429,7 +2429,7 @@
             // 初始化月度对比图
             initMonthlyComparisonChart();
             
-            // 新增：球场分布地图初始化
+            // 新增：球场管理地图初始化
             function initCourtMap() {
                 // 检查地图是否已经初始化
                 if (window.courtMap) {
@@ -2467,7 +2467,7 @@
                 const mainLocation = L.marker([35.0268, 110.9979], {icon: mainIcon}).addTo(window.courtMap);
                 mainLocation.bindPopup(`
                     <div style="min-width: 200px;">
-                        <h4 style="margin: 0 0 10px 0; color: #2d8c3c;">运城袋鼠网球学院</h4>
+                        <h4 style="margin: 0 0 10px 0; color: #2d8c3c;">运城袋鼠网球学院（总部）</h4>
                         <p style="margin: 5px 0;">地址：运城市盐湖区大禹街与园西路交叉口东320米</p>
                         <p style="margin: 5px 0;">网球场数量：<strong>4片</strong></p>
                         <p style="margin: 5px 0;">包含：室外场地4片</p>
