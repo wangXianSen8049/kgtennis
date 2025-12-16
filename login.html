@@ -389,7 +389,7 @@
                     <label for="username">用户名</label>
                     <div class="input-with-icon">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="username" class="form-control" placeholder="请输入用户名">
+                        <input type="text" id="username" class="form-control" placeholder="请输入用户名" value="admin">
                     </div>
                     <div class="error-message" id="usernameError">用户名不能为空</div>
                 </div>
@@ -398,7 +398,7 @@
                     <label for="password">密码</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" class="form-control" placeholder="请输入密码">
+                        <input type="password" id="password" class="form-control" placeholder="请输入密码" value="admin123">
                     </div>
                     <div class="error-message" id="passwordError">密码不能为空</div>
                 </div>
@@ -465,7 +465,7 @@
                             alert('用户名或密码错误！请重试。');
                             $('.login-btn').html('登录系统').prop('disabled', false);
                         }
-                    }, 1500);
+                    }, 1000);
                 }
             });
             
